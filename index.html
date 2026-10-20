@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1">
 <title>Runway</title>
-<meta name="theme-color" content="#5A2FE0">
+<meta name="theme-color" content="#F26B1D">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -18,10 +18,10 @@
 <style>
 /* Tone: Plum-like. Violet gradient hero, white 24px cards on cool lilac-grey, black pill CTAs, glass cards on violet. */
 :root{
-  --v900:#3A17A8; --v700:#5A2FE0; --v500:#7C52FF; --v300:#B9A3FF; --v100:#EEE9FF;
-  --bg:#F3F2F8; --card:#FFFFFF; --ink:#111016; --ink2:#5F5C6E; --ink3:#9A97A8; --line:#ECEAF3;
+  --v900:#B8400B; --v700:#F26B1D; --v500:#FF8A3D; --v300:#FFC49A; --v100:#FFEEDF;
+  --bg:#F6F3F0; --card:#FFFFFF; --ink:#16110E; --ink2:#685F58; --ink3:#A49A92; --line:#EFE9E3;
   --glass:rgba(255,255,255,.14); --glass-b:rgba(255,255,255,.28);
-  --good:#17A86B; --warn:#F09A2C; --bad:#E5484D;
+  --good:#17A86B; --warn:#E5484D; --bad:#E5484D;
   --num:"Plus Jakarta Sans","Zen Kaku Gothic New",system-ui,sans-serif;
   --jp:"Zen Kaku Gothic New","Plus Jakarta Sans","Hiragino Sans",system-ui,sans-serif;
   --r-xl:28px; --r-lg:22px; --r-md:16px;
@@ -40,7 +40,7 @@ input,select{font:inherit;color:inherit}
 
 /* ---------- hero ---------- */
 .hero{position:relative;color:#fff;padding:calc(var(--sat) + 14px) var(--gut-r) 26px var(--gut-l);
-  background:radial-gradient(120% 90% at 85% 0%,#9B7BFF 0%,transparent 55%),linear-gradient(165deg,var(--v500) 0%,var(--v700) 45%,var(--v900) 100%);
+  background:radial-gradient(120% 90% at 85% 0%,#FFB36B 0%,transparent 55%),linear-gradient(165deg,var(--v500) 0%,var(--v700) 45%,var(--v900) 100%);
   border-radius:0 0 var(--r-xl) var(--r-xl);overflow:hidden}
 .hero::after{content:"";position:absolute;inset:auto -30% -60% auto;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.16),transparent 65%);pointer-events:none}
 .hero-inner{position:relative;z-index:1;max-width:520px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
@@ -61,14 +61,14 @@ input,select{font:inherit;color:inherit}
 .glass .k{font-size:12px;opacity:.78}
 .glass .v{font-family:var(--num);font-weight:700;font-size:20px;letter-spacing:-.02em}
 .track{height:8px;border-radius:99px;background:rgba(255,255,255,.2);overflow:hidden;margin-top:10px;position:relative}
-.track > i{position:absolute;inset:0 auto 0 0;border-radius:99px;background:linear-gradient(90deg,#fff,#D9CCFF)}
+.track > i{position:absolute;inset:0 auto 0 0;border-radius:99px;background:linear-gradient(90deg,#fff,#FFE2C9)}
 .track > b{position:absolute;top:-3px;bottom:-3px;width:2px;background:#fff;opacity:.9;border-radius:2px}
 .hero.over{background:radial-gradient(120% 90% at 85% 0%,#FF8A8A 0%,transparent 55%),linear-gradient(165deg,#E5484D 0%,#B4233A 60%,#7E1530 100%)}
 
 /* ---------- body ---------- */
 .page{max-width:520px;margin:0 auto;padding:16px var(--gut-r) calc(120px + var(--sab)) var(--gut-l);display:flex;flex-direction:column;gap:14px}
 .actions{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:-34px;position:relative;z-index:2}
-.act{background:var(--card);border-radius:var(--r-md);padding:12px 4px 10px;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12px;font-weight:500;box-shadow:0 6px 18px rgba(58,23,168,.10)}
+.act{background:var(--card);border-radius:var(--r-md);padding:12px 4px 10px;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12px;font-weight:500;box-shadow:0 6px 18px rgba(184,64,11,.12)}
 .act svg{width:22px;height:22px;color:var(--v700)}
 .card{background:var(--card);border-radius:var(--r-lg);padding:16px;display:flex;flex-direction:column;gap:12px;min-width:0}
 .card-h{display:flex;justify-content:space-between;align-items:center;gap:8px}
@@ -83,7 +83,7 @@ input,select{font:inherit;color:inherit}
 .tile .s{font-size:11px;color:var(--ink3)}
 .pace-bar{height:10px;border-radius:99px;background:var(--line);position:relative;overflow:hidden}
 .pace-bar i{position:absolute;inset:0 auto 0 0;border-radius:99px;background:linear-gradient(90deg,var(--v500),var(--v700))}
-.pace-bar i.over{background:linear-gradient(90deg,#FFB65C,var(--warn))}
+.pace-bar i.over{background:linear-gradient(90deg,#F7A3A5,var(--bad))}
 .pace-bar b{position:absolute;top:-2px;bottom:-2px;width:2px;background:var(--ink);border-radius:2px}
 .pill{font-size:12px;font-weight:700;padding:4px 10px;border-radius:99px;background:#E4F7EE;color:var(--good)}
 .pill.warn{background:#FFF1DF;color:#B5650B}
@@ -145,7 +145,7 @@ input,select{font:inherit;color:inherit}
 /* nav */
 .nav{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + var(--sab));z-index:40;width:min(calc(100% - 36px),420px);
   background:rgba(255,255,255,.92);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-radius:999px;padding:8px;
-  display:grid;grid-template-columns:repeat(5,1fr);align-items:center;box-shadow:0 10px 30px rgba(30,10,90,.16)}
+  display:grid;grid-template-columns:repeat(5,1fr);align-items:center;box-shadow:0 10px 30px rgba(120,45,5,.16)}
 .nav button{height:48px;border-radius:999px;display:grid;place-items:center;color:var(--ink3)}
 .nav button svg{width:23px;height:23px}
 .nav button[aria-current="page"]{color:var(--ink)}
@@ -155,7 +155,7 @@ input,select{font:inherit;color:inherit}
 
 /* sheet (add / edit) */
 .sheet{position:fixed;inset:0;z-index:60;display:flex;flex-direction:column;color:#fff;
-  background:radial-gradient(120% 70% at 80% 0%,#9B7BFF 0%,transparent 55%),linear-gradient(170deg,var(--v500),var(--v700) 40%,var(--v900));
+  background:radial-gradient(120% 70% at 80% 0%,#FFB36B 0%,transparent 55%),linear-gradient(170deg,var(--v500),var(--v700) 40%,var(--v900));
   padding:calc(var(--sat) + 10px) var(--gut-r) calc(var(--sab) + 14px) var(--gut-l);animation:up .28s cubic-bezier(.2,.8,.2,1)}
 @keyframes up{from{transform:translateY(30px);opacity:0}to{transform:none;opacity:1}}
 .sheet-in{max-width:520px;width:100%;margin:0 auto;display:flex;flex-direction:column;gap:12px;height:100%}
@@ -224,11 +224,11 @@ const ICON={
 };
 const CATS=[
   {id:"cook",name:"自炊食費",c:"#0E9F9A",bg:"#DDF4F3"},
-  {id:"eatout",name:"外食",c:"#F0702C",bg:"#FFEBDF"},
+  {id:"eatout",name:"外食",c:"#9B51E0",bg:"#F2E6FC"},
   {id:"cafe",name:"カフェ・おやつ",c:"#C2853A",bg:"#F8EEDF"},
   {id:"grab",name:"交通・Grab",c:"#1E9E4A",bg:"#DFF4E6"},
   {id:"daily",name:"日用品",c:"#2F7BEA",bg:"#E2EDFD"},
-  {id:"study",name:"勉強",c:"#5A2FE0",bg:"#EEE9FF"},
+  {id:"study",name:"勉強",c:"#4F46E5",bg:"#E7E6FC"},
   {id:"fun",name:"趣味・娯楽",c:"#D6409F",bg:"#FBE4F2"},
   {id:"other",name:"その他",c:"#6E6A7C",bg:"#EEEDF2"}];
 const catById=id=>CATS.find(c=>c.id===id)||CATS[CATS.length-1];
@@ -329,7 +329,7 @@ function vHome(){
   const key=curKey(), P=period(key), pd=S.periods[key], b=budget(key), now=new Date(), today=ymd(now), r=todayRate();
   const items=expensesOf(key), todays=items.filter(e=>e.date===today);
   const daysLeft=Math.max(1,dayDiff(now,P.end));
-  const top=`<div class="topbar"><div class="who"><div class="avatar">H</div><div><small>${now.getMonth()+1}月${now.getDate()}日（${wd(now)}）</small><b>Runway</b></div></div>
+  const top=`<div class="topbar"><div class="who"><div class="avatar">H</div><div><b>${now.getMonth()+1}月${now.getDate()}日（${wd(now)}）</b></div></div>
     <span class="chip-glass"><span class="dot"></span><span class="num">1 RM = ${r?r.toFixed(2):"–"}円</span></span></div>`;
   if(!pd||!pd.allowanceJPY){
     return `<header class="hero"><div class="hero-inner">${top}
@@ -421,7 +421,7 @@ function vReport(){
   const n=P.days, daily=Array(n).fill(0); items.forEach(e=>{const i=dayDiff(P.start,parseD(e.date));if(i>=0&&i<n)daily[i]+=Number(e.myr);});
   const target=b?(b.usableJPY/n)/(avg||b.r):0;
   const W=340,H=170,L=30,R=4,T=10,B=22, mx=Math.max(10,target,...daily), step=nice(mx), ymax=Math.ceil(mx/step)*step, bw=(W-L-R)/n, sy=v=>T+(H-T-B)*(1-v/ymax);
-  let g=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="毎日の出費"><defs><linearGradient id="gb" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7C52FF"/><stop offset="1" stop-color="#B9A3FF" stop-opacity=".55"/></linearGradient><linearGradient id="go" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F09A2C"/><stop offset="1" stop-color="#FFC98A" stop-opacity=".6"/></linearGradient></defs>`;
+  let g=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="毎日の出費"><defs><linearGradient id="gb" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FF8A3D"/><stop offset="1" stop-color="#FFC49A" stop-opacity=".55"/></linearGradient><linearGradient id="go" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E5484D"/><stop offset="1" stop-color="#F7A3A5" stop-opacity=".6"/></linearGradient></defs>`;
   for(let v=0;v<=ymax+1e-9;v+=step) g+=`<line x1="${L}" x2="${W-R}" y1="${sy(v)}" y2="${sy(v)}" stroke="#ECEAF3"/><text x="${L-6}" y="${sy(v)+3}" font-size="9" text-anchor="end" fill="#9A97A8" font-family="Plus Jakarta Sans">${+v.toFixed(1)}</text>`;
   daily.forEach((v,i)=>{if(v>0){const o=target&&v>target;g+=`<rect x="${L+i*bw+1}" y="${sy(v)}" width="${Math.max(2,bw-2)}" height="${sy(0)-sy(v)}" rx="${Math.min(4,bw/2-1)}" fill="url(#${o?"go":"gb"})"/>`;}});
   if(target) g+=`<line x1="${L}" x2="${W-R}" y1="${sy(target)}" y2="${sy(target)}" stroke="#111016" stroke-dasharray="3 4" stroke-width="1.2"/>`;
@@ -442,7 +442,7 @@ function vReport(){
       ${cats.length?`<div class="stack">${cats.map(([id,v])=>`<i style="width:${v/spent*100}%;background:${catById(id).c}"></i>`).join("")}</div>
       <div class="legend">${cats.map(([id,v])=>{const c=catById(id);return `<div class="leg">${catIcon(id)}<span>${c.name}</span><span class="a"><b>RM ${rm(v)}</b><span>${Math.round(v/spent*100)}%</span></span></div>`;}).join("")}</div>`:`<div class="empty">この期間の記録はありません</div>`}
     </div>
-    <div class="card chart"><div class="card-h"><h3>毎日の出費</h3><span class="small muted">RM</span></div>${g}${target?`<div class="small muted">点線は1日の目安（約 RM ${rm(target)}）。超えた日はオレンジ。</div>`:""}</div>
+    <div class="card chart"><div class="card-h"><h3>毎日の出費</h3><span class="small muted">RM</span></div>${g}${target?`<div class="small muted">点線は1日の目安（約 RM ${rm(target)}）。超えた日は赤。</div>`:""}</div>
     ${top5.length?`<div class="card"><div class="card-h"><h3>大きかった出費</h3></div><div class="list">${top5.map(e=>itemHTML(e,pd)).join("")}</div></div>`:""}
     ${b?`<div class="card"><div class="card-h"><h3>この期間の内訳</h3></div>
       <div class="row small"><span class="muted">仕送り</span><b class="num">${yen(b.allowJPY)}</b></div>
@@ -496,7 +496,7 @@ function vSettings(){
       <div class="grid2"><button class="btn ghost" id="bkOut">書き出す</button><button class="btn ghost" id="bkIn">読み込む</button></div>
       <input type="file" id="bkFile" accept="application/json,.json" hidden>
     </div>
-    <p class="small muted" style="text-align:center">Runway ・ 記録 ${S.expenses.length}件</p>
+    <p class="small muted" style="text-align:center">記録 ${S.expenses.length}件</p>
   </div>`;
 }
 
