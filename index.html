@@ -146,10 +146,10 @@ input,select{font:inherit;color:inherit}
 .nav{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + var(--sab));z-index:40;width:min(calc(100% - 36px),420px);
   background:rgba(255,255,255,.92);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-radius:999px;padding:8px;
   display:grid;grid-template-columns:repeat(5,1fr);align-items:center;box-shadow:0 10px 30px rgba(120,45,5,.16)}
-.nav button{height:48px;border-radius:999px;display:grid;place-items:center;color:var(--ink3)}
+.nav button{height:48px;width:48px;margin:auto;border-radius:16px;display:grid;place-items:center;color:var(--ink3);transition:background .2s,color .2s}
 .nav button svg{width:23px;height:23px}
-.nav button[aria-current="page"]{color:var(--ink)}
-.nav button[aria-current="page"]::after{content:"";width:4px;height:4px;border-radius:50%;background:var(--v700);position:absolute;margin-top:34px}
+.nav button[aria-current="page"]{color:var(--v700);background:var(--v100)}
+.nav button[aria-current="page"] svg{stroke-width:2.4}
 .nav .fab{width:52px;height:52px;margin:auto;background:var(--ink);color:#fff;border-radius:50%}
 .nav .fab svg{width:24px;height:24px}
 
