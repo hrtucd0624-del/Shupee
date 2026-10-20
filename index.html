@@ -1,0 +1,631 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1">
+<title>Runway</title>
+<meta name="theme-color" content="#5A2FE0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Runway">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
+<style>
+/* Tone: Plum-like. Violet gradient hero, white 24px cards on cool lilac-grey, black pill CTAs, glass cards on violet. */
+:root{
+  --v900:#3A17A8; --v700:#5A2FE0; --v500:#7C52FF; --v300:#B9A3FF; --v100:#EEE9FF;
+  --bg:#F3F2F8; --card:#FFFFFF; --ink:#111016; --ink2:#5F5C6E; --ink3:#9A97A8; --line:#ECEAF3;
+  --glass:rgba(255,255,255,.14); --glass-b:rgba(255,255,255,.28);
+  --good:#17A86B; --warn:#F09A2C; --bad:#E5484D;
+  --num:"Plus Jakarta Sans","Zen Kaku Gothic New",system-ui,sans-serif;
+  --jp:"Zen Kaku Gothic New","Plus Jakarta Sans","Hiragino Sans",system-ui,sans-serif;
+  --r-xl:28px; --r-lg:22px; --r-md:16px;
+  --sat:env(safe-area-inset-top,0px); --sab:env(safe-area-inset-bottom,0px);
+  --gut-l:max(18px,env(safe-area-inset-left,0px)); --gut-r:max(18px,env(safe-area-inset-right,0px));
+  color-scheme:light;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--jp);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+body{overscroll-behavior-y:none}
+button{font:inherit;color:inherit;border:none;background:none;cursor:pointer;padding:0}
+input,select{font:inherit;color:inherit}
+[hidden]{display:none!important}
+.num{font-family:var(--num);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+:focus-visible{outline:2px solid var(--v500);outline-offset:2px}
+
+/* ---------- hero ---------- */
+.hero{position:relative;color:#fff;padding:calc(var(--sat) + 14px) var(--gut-r) 26px var(--gut-l);
+  background:radial-gradient(120% 90% at 85% 0%,#9B7BFF 0%,transparent 55%),linear-gradient(165deg,var(--v500) 0%,var(--v700) 45%,var(--v900) 100%);
+  border-radius:0 0 var(--r-xl) var(--r-xl);overflow:hidden}
+.hero::after{content:"";position:absolute;inset:auto -30% -60% auto;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.16),transparent 65%);pointer-events:none}
+.hero-inner{position:relative;z-index:1;max-width:520px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.who{display:flex;align-items:center;gap:10px}
+.avatar{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.2);border:1px solid var(--glass-b);display:grid;place-items:center;font-family:var(--num);font-weight:800}
+.who small{display:block;opacity:.75;font-size:12px;line-height:1.2}
+.who b{font-family:var(--num);font-weight:700;font-size:15px}
+.chip-glass{background:var(--glass);border:1px solid var(--glass-b);border-radius:999px;padding:6px 11px;font-size:12px;display:inline-flex;align-items:center;gap:6px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);white-space:nowrap}
+.chip-glass .dot{width:6px;height:6px;border-radius:50%;background:#7CF2B8}
+.big-wrap{text-align:center;padding:6px 0 2px}
+.big-label{font-size:13px;opacity:.82}
+.big{font-family:var(--num);font-weight:800;font-size:clamp(48px,16vw,64px);line-height:1.05;letter-spacing:-.035em}
+.big .cur{font-size:.42em;font-weight:700;opacity:.85;margin-right:4px;letter-spacing:0}
+.big-sub{font-size:13px;opacity:.85}
+.glass{background:var(--glass);border:1px solid var(--glass-b);border-radius:var(--r-lg);padding:14px 16px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.glass-row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.glass .k{font-size:12px;opacity:.78}
+.glass .v{font-family:var(--num);font-weight:700;font-size:20px;letter-spacing:-.02em}
+.track{height:8px;border-radius:99px;background:rgba(255,255,255,.2);overflow:hidden;margin-top:10px;position:relative}
+.track > i{position:absolute;inset:0 auto 0 0;border-radius:99px;background:linear-gradient(90deg,#fff,#D9CCFF)}
+.track > b{position:absolute;top:-3px;bottom:-3px;width:2px;background:#fff;opacity:.9;border-radius:2px}
+.hero.over{background:radial-gradient(120% 90% at 85% 0%,#FF8A8A 0%,transparent 55%),linear-gradient(165deg,#E5484D 0%,#B4233A 60%,#7E1530 100%)}
+
+/* ---------- body ---------- */
+.page{max-width:520px;margin:0 auto;padding:16px var(--gut-r) calc(120px + var(--sab)) var(--gut-l);display:flex;flex-direction:column;gap:14px}
+.actions{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:-34px;position:relative;z-index:2}
+.act{background:var(--card);border-radius:var(--r-md);padding:12px 4px 10px;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12px;font-weight:500;box-shadow:0 6px 18px rgba(58,23,168,.10)}
+.act svg{width:22px;height:22px;color:var(--v700)}
+.card{background:var(--card);border-radius:var(--r-lg);padding:16px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.card-h{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.card-h h3{margin:0;font-size:16px;font-weight:700}
+.link{font-size:13px;color:var(--v700);font-weight:700}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tile{background:var(--card);border-radius:var(--r-lg);padding:14px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.tile .ic{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:var(--v100);color:var(--v700)}
+.tile .ic svg{width:17px;height:17px}
+.tile .k{font-size:12px;color:var(--ink2)}
+.tile .v{font-family:var(--num);font-weight:700;font-size:19px;letter-spacing:-.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tile .s{font-size:11px;color:var(--ink3)}
+.pace-bar{height:10px;border-radius:99px;background:var(--line);position:relative;overflow:hidden}
+.pace-bar i{position:absolute;inset:0 auto 0 0;border-radius:99px;background:linear-gradient(90deg,var(--v500),var(--v700))}
+.pace-bar i.over{background:linear-gradient(90deg,#FFB65C,var(--warn))}
+.pace-bar b{position:absolute;top:-2px;bottom:-2px;width:2px;background:var(--ink);border-radius:2px}
+.pill{font-size:12px;font-weight:700;padding:4px 10px;border-radius:99px;background:#E4F7EE;color:var(--good)}
+.pill.warn{background:#FFF1DF;color:#B5650B}
+.pill.bad{background:#FDE7E8;color:var(--bad)}
+.muted{color:var(--ink2)} .small{font-size:13px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+
+/* list */
+.list{display:flex;flex-direction:column}
+.day-h{display:flex;justify-content:space-between;font-size:12px;color:var(--ink3);padding:12px 2px 6px;font-weight:500}
+.item{display:grid;grid-template-columns:40px 1fr auto;gap:12px;align-items:center;padding:9px 2px;text-align:left;width:100%}
+.item + .item{border-top:1px solid var(--line)}
+.cat-ic{width:40px;height:40px;border-radius:14px;display:grid;place-items:center}
+.cat-ic svg{width:20px;height:20px}
+.item .t{min-width:0}
+.item .t b{display:block;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.item .t span{font-size:12px;color:var(--ink3)}
+.item .a{text-align:right}
+.item .a b{display:block;font-family:var(--num);font-weight:700}
+.item .a span{font-size:11px;color:var(--ink3);font-family:var(--num)}
+.empty{padding:14px 4px;text-align:center;color:var(--ink3);font-size:13px}
+
+/* buttons & inputs */
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;background:var(--ink);color:#fff;border-radius:999px;padding:16px 20px;font-weight:700;font-size:16px;width:100%}
+.btn:disabled{opacity:.35}
+.btn.ghost{background:var(--v100);color:var(--v900)}
+.btn.danger{background:#FDE7E8;color:var(--bad)}
+.btn.sm{padding:10px 14px;font-size:14px;width:auto}
+.field{display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--ink2);min-width:0}
+.field input,.field select{border:1.5px solid var(--line);background:var(--bg);border-radius:14px;padding:12px 14px;font-size:16px;color:var(--ink);width:100%;min-width:0;-webkit-appearance:none;appearance:none}
+.field input:focus,.field select:focus{border-color:var(--v500);outline:none;background:#fff}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.conv{font-family:var(--num);color:var(--ink2);font-size:13px;min-height:22px}
+.conv b{color:var(--v700);font-size:20px;font-weight:800;margin-right:6px;letter-spacing:-.02em}
+.switch{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.switch input{appearance:none;-webkit-appearance:none;width:50px;height:30px;border-radius:99px;background:#DCD9E6;position:relative;cursor:pointer;transition:background .2s;flex:none}
+.switch input::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:transform .2s}
+.switch input:checked{background:var(--v700)}
+.switch input:checked::after{transform:translateX(20px)}
+.fx-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.fx-row:last-child{border-bottom:none}
+.x{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;color:var(--ink3);background:var(--bg)}
+
+/* report */
+.seg{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.seg button{width:36px;height:36px;border-radius:50%;background:var(--glass);border:1px solid var(--glass-b);display:grid;place-items:center}
+.seg button:disabled{opacity:.3}
+.seg b{font-weight:700}
+.stack{display:flex;height:12px;border-radius:99px;overflow:hidden;gap:3px}
+.stack i{display:block;height:100%;border-radius:99px}
+.legend{display:flex;flex-direction:column}
+.leg{display:grid;grid-template-columns:40px 1fr auto;gap:12px;align-items:center;padding:8px 0}
+.leg + .leg{border-top:1px solid var(--line)}
+.leg .a{text-align:right;font-family:var(--num)}
+.leg .a b{display:block;font-weight:700}
+.leg .a span{font-size:11px;color:var(--ink3)}
+.chart svg{display:block;width:100%;height:auto}
+
+/* nav */
+.nav{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + var(--sab));z-index:40;width:min(calc(100% - 36px),420px);
+  background:rgba(255,255,255,.92);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-radius:999px;padding:8px;
+  display:grid;grid-template-columns:repeat(5,1fr);align-items:center;box-shadow:0 10px 30px rgba(30,10,90,.16)}
+.nav button{height:48px;border-radius:999px;display:grid;place-items:center;color:var(--ink3)}
+.nav button svg{width:23px;height:23px}
+.nav button[aria-current="page"]{color:var(--ink)}
+.nav button[aria-current="page"]::after{content:"";width:4px;height:4px;border-radius:50%;background:var(--v700);position:absolute;margin-top:34px}
+.nav .fab{width:52px;height:52px;margin:auto;background:var(--ink);color:#fff;border-radius:50%}
+.nav .fab svg{width:24px;height:24px}
+
+/* sheet (add / edit) */
+.sheet{position:fixed;inset:0;z-index:60;display:flex;flex-direction:column;color:#fff;
+  background:radial-gradient(120% 70% at 80% 0%,#9B7BFF 0%,transparent 55%),linear-gradient(170deg,var(--v500),var(--v700) 40%,var(--v900));
+  padding:calc(var(--sat) + 10px) var(--gut-r) calc(var(--sab) + 14px) var(--gut-l);animation:up .28s cubic-bezier(.2,.8,.2,1)}
+@keyframes up{from{transform:translateY(30px);opacity:0}to{transform:none;opacity:1}}
+.sheet-in{max-width:520px;width:100%;margin:0 auto;display:flex;flex-direction:column;gap:12px;height:100%}
+.sheet-top{display:flex;justify-content:space-between;align-items:center}
+.round{width:40px;height:40px;border-radius:50%;background:var(--glass);border:1px solid var(--glass-b);display:grid;place-items:center}
+.round svg{width:20px;height:20px}
+.date-chip{position:relative}
+.date-chip input{position:absolute;inset:0;opacity:0;width:100%}
+.amount{text-align:center;padding:4px 0}
+.amount .big{font-size:clamp(52px,17vw,72px)}
+.amount .big.zero{opacity:.45}
+.amount .yen{font-family:var(--num);opacity:.82;font-size:14px;min-height:21px}
+.cats{display:flex;gap:8px;overflow-x:auto;padding:2px 0 4px;margin:0 calc(-1 * var(--gut-r)) 0 calc(-1 * var(--gut-l));padding-left:var(--gut-l);padding-right:var(--gut-r);scrollbar-width:none}
+.cats::-webkit-scrollbar{display:none}
+.cat{flex:none;display:flex;align-items:center;gap:7px;padding:8px 13px 8px 8px;border-radius:999px;background:var(--glass);border:1px solid var(--glass-b);font-size:14px;white-space:nowrap}
+.cat .ci{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.18)}
+.cat .ci svg{width:15px;height:15px}
+.cat[aria-pressed="true"]{background:#fff;color:var(--ink);border-color:#fff}
+.cat[aria-pressed="true"] .ci{background:var(--cc);color:#fff}
+.note{display:flex;align-items:center;gap:10px;background:var(--glass);border:1px solid var(--glass-b);border-radius:16px;padding:0 14px}
+.note svg{width:18px;height:18px;opacity:.7;flex:none}
+.note input{flex:1;min-width:0;background:none;border:none;outline:none;color:#fff;padding:13px 0;font-size:16px}
+.note input::placeholder{color:rgba(255,255,255,.6)}
+.recent{display:flex;gap:6px;flex-wrap:wrap;min-height:0}
+.recent button{font-size:12px;padding:5px 10px;border-radius:99px;background:rgba(255,255,255,.1);border:1px dashed rgba(255,255,255,.35)}
+.keys{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:auto}
+.keys button{height:56px;border-radius:18px;background:rgba(255,255,255,.12);font-family:var(--num);font-size:24px;font-weight:600}
+.keys button:active{background:rgba(255,255,255,.26)}
+.keys svg{width:24px;height:24px}
+.sheet .btn{background:var(--ink);color:#fff}
+.sheet .btn.light{background:#fff;color:var(--ink)}
+.sheet-actions{display:flex;gap:10px}
+.sheet-actions .btn.del{flex:0 0 auto;width:auto;padding:16px 18px;background:rgba(255,255,255,.14);border:1px solid var(--glass-b);color:#fff}
+.confirm-del{background:#fff;color:var(--bad)!important}
+
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(92px + var(--sab));background:var(--ink);color:#fff;padding:11px 18px;border-radius:999px;font-size:14px;z-index:80;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.2)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<main id="app"></main>
+
+<nav class="nav" aria-label="メニュー">
+  <button data-go="home" aria-label="ホーム" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg></button>
+  <button data-go="history" aria-label="履歴"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg></button>
+  <button class="fab" data-add aria-label="出費を記録"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
+  <button data-go="report" aria-label="レポート"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V11M10 20V5M16 20v-6M21 20H3"/></svg></button>
+  <button data-go="settings" aria-label="設定"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></button>
+</nav>
+
+<div id="sheet" class="sheet" hidden></div>
+<div id="toast" class="toast" hidden></div>
+
+<script>
+/* ================= data ================= */
+const ICON={
+  cook:'<path d="M4 11h16v3a6 6 0 0 1-6 6h-4a6 6 0 0 1-6-6z"/><path d="M2 11h20M8 7c0-1 1-1 1-2M12 7c0-1 1-1 1-2M16 7c0-1 1-1 1-2"/>',
+  eatout:'<path d="M7 3v8a2 2 0 0 0 2 2v8M5 3v5a2 2 0 0 0 2 2M11 3v5a2 2 0 0 1-2 2M17 21V3c-2 1-3 3-3 6v4h3"/>',
+  cafe:'<path d="M4 9h13v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5z"/><path d="M17 11h1a2.5 2.5 0 0 1 0 5h-1.5M8 3v3M12 3v3"/>',
+  grab:'<path d="M5 17h14M6 17v2M18 17v2M4 13l2-6h12l2 6v4H4z"/><circle cx="8" cy="14" r=".8"/><circle cx="16" cy="14" r=".8"/>',
+  daily:'<path d="M5 8h14l-1 12H6z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/>',
+  study:'<path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5M9 8h6"/>',
+  fun:'<path d="M12 3l2.4 5 5.6.8-4 3.9.9 5.5-4.9-2.6-4.9 2.6.9-5.5-4-3.9 5.6-.8z"/>',
+  other:'<circle cx="6" cy="12" r="1.3"/><circle cx="12" cy="12" r="1.3"/><circle cx="18" cy="12" r="1.3"/>'
+};
+const CATS=[
+  {id:"cook",name:"自炊食費",c:"#0E9F9A",bg:"#DDF4F3"},
+  {id:"eatout",name:"外食",c:"#F0702C",bg:"#FFEBDF"},
+  {id:"cafe",name:"カフェ・おやつ",c:"#C2853A",bg:"#F8EEDF"},
+  {id:"grab",name:"交通・Grab",c:"#1E9E4A",bg:"#DFF4E6"},
+  {id:"daily",name:"日用品",c:"#2F7BEA",bg:"#E2EDFD"},
+  {id:"study",name:"勉強",c:"#5A2FE0",bg:"#EEE9FF"},
+  {id:"fun",name:"趣味・娯楽",c:"#D6409F",bg:"#FBE4F2"},
+  {id:"other",name:"その他",c:"#6E6A7C",bg:"#EEEDF2"}];
+const catById=id=>CATS.find(c=>c.id===id)||CATS[CATS.length-1];
+const svg=(p,w=2)=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
+const catIcon=(id)=>{const c=catById(id);return `<span class="cat-ic" style="background:${c.bg};color:${c.c}">${svg(ICON[c.id])}</span>`;};
+
+const KEY="runway.v1";
+const blank=()=>({settings:{payDay:25,fixed:[],carry:false,lastJPY:null},periods:{},expenses:[],rate:null,manualRate:null});
+let S=load();
+function load(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&s.settings)return Object.assign(blank(),s);}catch(e){}return blank();}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));return true;}catch(e){toast("保存できませんでした");return false;}}
+
+/* ================= helpers ================= */
+const pad=n=>String(n).padStart(2,"0");
+const ymd=d=>d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());
+const ym=d=>d.getFullYear()+"-"+pad(d.getMonth()+1);
+const parseD=s=>{const [y,m,d]=s.split("-").map(Number);return new Date(y,m-1,d);};
+const rm=v=>(v<0?"-":"")+Math.abs(v).toFixed(2);
+const yen=v=>(v<0?"-¥":"¥")+Math.abs(Math.round(v)).toLocaleString("ja-JP");
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const daysIn=(y,m)=>new Date(y,m,0).getDate();
+const dayDiff=(a,b)=>Math.round((Date.UTC(b.getFullYear(),b.getMonth(),b.getDate())-Date.UTC(a.getFullYear(),a.getMonth(),a.getDate()))/864e5);
+const shiftMonth=(key,n)=>{const [y,m]=key.split("-").map(Number);return ym(new Date(y,m-1+n,1));};
+const md_=d=>(d.getMonth()+1)+"/"+d.getDate();
+const wd=d=>"日月火水木金土"[d.getDay()];
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+const $=s=>document.querySelector(s);
+
+/* allowance period: payDay → day before next payDay */
+const payDay=()=>Math.min(31,Math.max(1,Number(S.settings.payDay)||1));
+const pdIn=(y,m0)=>Math.min(payDay(),daysIn(y,m0+1));
+function keyOf(date){let y=date.getFullYear(),m=date.getMonth();if(date.getDate()<pdIn(y,m)){m--;if(m<0){m=11;y--;}}return y+"-"+pad(m+1);}
+function period(key){
+  const [y,m]=key.split("-").map(Number);
+  const start=new Date(y,m-1,pdIn(y,m-1));
+  const ny=m===12?y+1:y,nm0=m===12?0:m,end=new Date(ny,nm0,pdIn(ny,nm0));
+  const last=new Date(end.getFullYear(),end.getMonth(),end.getDate()-1);
+  return {key,start,end,last,days:dayDiff(start,end),startStr:ymd(start),endStr:ymd(end),label:`${md_(start)} – ${md_(last)}`};
+}
+const curKey=()=>keyOf(new Date());
+const inPeriod=(P,e)=>e.date>=P.startStr&&e.date<P.endStr;
+const expensesOf=key=>{const P=period(key);return S.expenses.filter(e=>inPeriod(P,e));};
+
+/* rate */
+function todayRate(){
+  const t=ymd(new Date());
+  if(S.manualRate&&S.manualRate.date===t) return S.manualRate.v;
+  if(S.rate&&S.rate.v) return S.rate.v;
+  const pd=S.periods[curKey()]; return pd&&pd.rate?pd.rate:0;
+}
+function rateLabel(){
+  const t=ymd(new Date());
+  if(S.manualRate&&S.manualRate.date===t) return "今日 手入力";
+  if(S.rate&&S.rate.fetched) return S.rate.fetched.slice(0,10)===t?"今日 自動取得":md_(parseD(S.rate.fetched.slice(0,10)))+" 取得";
+  return "";
+}
+async function fetchRate(){
+  try{
+    const r=await fetch("https://api.frankfurter.dev/v1/latest?from=MYR&to=JPY",{cache:"no-store"});
+    if(!r.ok) throw 0; const j=await r.json(); const v=j&&j.rates&&Number(j.rates.JPY);
+    if(!(v>5&&v<200)) throw 0;
+    S.rate={v:Math.round(v*1000)/1000,date:j.date,fetched:new Date().toISOString()}; save(); render();
+  }catch(e){ if(!todayRate()) toast("レートを取得できませんでした"); }
+}
+const rateOf=(e,pd)=>Number(e.rate)||(pd&&Number(pd.rate))||todayRate();
+const jpyOf=(e,pd)=>Number(e.myr||0)*rateOf(e,pd);
+const sumRM=a=>a.reduce((s,e)=>s+Number(e.myr||0),0);
+const sumJPY=(a,pd)=>a.reduce((s,e)=>s+jpyOf(e,pd),0);
+
+function budget(key){
+  const pd=S.periods[key]; if(!pd||!pd.allowanceJPY) return null;
+  const r=key===curKey()?todayRate():(Number(pd.rate)||todayRate()); if(!r) return null;
+  const fixedMYR=(pd.fixed||S.settings.fixed||[]).reduce((s,f)=>s+Number(f.myr||0),0);
+  const fixedJPY=fixedMYR*r, carryJPY=Number(pd.carryJPY||0);
+  return {pd,r,allowJPY:Number(pd.allowanceJPY),fixedMYR,fixedJPY,carryJPY,usableJPY:Number(pd.allowanceJPY)-fixedJPY+carryJPY};
+}
+
+/* ================= UI ================= */
+let view="home", reportKey=null;
+function toast(t){const el=$("#toast");el.textContent=t;el.hidden=false;clearTimeout(toast._t);toast._t=setTimeout(()=>el.hidden=true,1900);}
+function go(v){view=v;document.querySelectorAll(".nav [data-go]").forEach(b=>{if(b.dataset.go===v)b.setAttribute("aria-current","page");else b.removeAttribute("aria-current");});if(v!=="report")reportKey=null;render();window.scrollTo(0,0);}
+function render(){ const app=$("#app"); app.innerHTML= view==="home"?vHome(): view==="history"?vHistory(): view==="report"?vReport(): vSettings(); bindView(); }
+
+function itemHTML(e,pd){
+  const c=catById(e.cat), r=rateOf(e,pd);
+  return `<button class="item" data-edit="${esc(e.id)}">${catIcon(e.cat)}<span class="t"><b>${esc(e.note)||c.name}</b><span>${c.name}</span></span><span class="a"><b>RM ${rm(Number(e.myr))}</b><span>${r?yen(e.myr*r):""}</span></span></button>`;
+}
+function listHTML(items,pd,grouped){
+  if(!items.length) return `<div class="empty">${grouped?"この期間の記録はまだありません":"今日はまだ記録なし。下の ＋ から記録しよう"}</div>`;
+  const sorted=[...items].sort((a,b)=>(b.date+(b.createdAt||"")).localeCompare(a.date+(a.createdAt||"")));
+  if(!grouped) return `<div class="list">${sorted.map(e=>itemHTML(e,pd)).join("")}</div>`;
+  const by={}; sorted.forEach(e=>(by[e.date]=by[e.date]||[]).push(e));
+  return Object.keys(by).map(d=>{const dd=parseD(d);return `<div class="day-h"><span>${md_(dd)}（${wd(dd)}）</span><span class="num">RM ${rm(sumRM(by[d]))}</span></div><div class="list card" style="padding:4px 14px;gap:0">${by[d].map(e=>itemHTML(e,pd)).join("")}</div>`;}).join("");
+}
+
+/* ---------- HOME ---------- */
+function vHome(){
+  const key=curKey(), P=period(key), pd=S.periods[key], b=budget(key), now=new Date(), today=ymd(now), r=todayRate();
+  const items=expensesOf(key), todays=items.filter(e=>e.date===today);
+  const daysLeft=Math.max(1,dayDiff(now,P.end));
+  const top=`<div class="topbar"><div class="who"><div class="avatar">H</div><div><small>${now.getMonth()+1}月${now.getDate()}日（${wd(now)}）</small><b>Runway</b></div></div>
+    <span class="chip-glass"><span class="dot"></span><span class="num">1 RM = ${r?r.toFixed(2):"–"}円</span></span></div>`;
+  if(!pd||!pd.allowanceJPY){
+    return `<header class="hero"><div class="hero-inner">${top}
+      <div class="big-wrap"><div class="big-label">次の仕送りまで ${daysLeft}日</div><div class="big num">Welcome</div><div class="big-sub">仕送りを入れると、1日に使える額が出ます</div></div></div></header>
+      <div class="page">${setupCard()}</div>`;
+  }
+  const spentJPY=sumJPY(items,pd), spentTodayJPY=sumJPY(todays,pd);
+  const remainingJPY=b?b.usableJPY-spentJPY:0;
+  const perDayJPY=(remainingJPY+spentTodayJPY)/daysLeft, leftJPY=perDayJPY-spentTodayJPY;
+  const tomorrowJPY=daysLeft>1?remainingJPY/(daysLeft-1):remainingJPY;
+  const over=b&&leftJPY<0;
+  const used=b&&b.usableJPY>0?Math.min(1,Math.max(0,spentJPY/b.usableJPY)):0;
+  const timePos=Math.min(1,dayDiff(P.start,now)/P.days);
+  const diff=used-timePos;
+  const pace=diff>0.1?["bad","使いすぎ"]:diff>0.03?["warn","ちょい速め"]:["","いいペース"];
+  return `<header class="hero${over?" over":""}"><div class="hero-inner">${top}
+    <div class="big-wrap">
+      <div class="big-label">${over?"今日はオーバー":"今日あと使える"}</div>
+      <div class="big num"><span class="cur">RM</span>${b?rm(Math.abs(leftJPY)/b.r):"–"}</div>
+      <div class="big-sub num">${b?(over?`明日から1日 RM ${rm(tomorrowJPY/b.r)}`:`今日の枠 RM ${rm(perDayJPY/b.r)}・${yen(perDayJPY)}`):"レート取得中…"}</div>
+    </div>
+    <div class="glass">
+      <div class="glass-row"><div><div class="k">円の残金</div><div class="v">${yen(remainingJPY)}</div></div>
+      <div style="text-align:right"><div class="k">次の仕送り</div><div class="v">${md_(P.end)}<span style="font-size:13px;font-weight:600;opacity:.8"> あと${daysLeft}日</span></div></div></div>
+      <div class="track"><i style="width:${(1-used)*100}%"></i></div>
+    </div>
+  </div></header>
+  <div class="page">
+    <div class="actions">
+      <button class="act" data-add>${svg('<path d="M12 5v14M5 12h14"/>')}記録</button>
+      <button class="act" data-go="report">${svg('<path d="M4 20V11M10 20V5M16 20v-6M21 20H3"/>')}レポート</button>
+      <button class="act" data-go="history">${svg('<path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>')}履歴</button>
+      <button class="act" data-go="settings">${svg('<path d="M3 7h18v12H3zM3 10h18M7 15h3"/>')}仕送り</button>
+    </div>
+    <div class="tiles">
+      <div class="tile"><span class="ic">${svg('<path d="M4 7h16v12H4z"/><path d="M16 12h.01M4 9l3-4h10l3 4"/>')}</span><span class="k">今回使った額</span><span class="v num">RM ${rm(sumRM(items))}</span><span class="s num">${yen(spentJPY)}</span></div>
+      <div class="tile"><span class="ic">${svg('<path d="M12 3v18M17 7.5C17 5.6 14.8 4 12 4S7 5.6 7 7.5 9.2 11 12 11.5s5 1.7 5 3.8S14.8 19 12 19s-5-1.6-5-3.5"/>')}</span><span class="k">今日使った額</span><span class="v num">RM ${rm(sumRM(todays))}</span><span class="s num">${todays.length}件</span></div>
+    </div>
+    <div class="card">
+      <div class="card-h"><h3>ペース</h3><span class="pill ${pace[0]}">${pace[1]}</span></div>
+      <div class="pace-bar"><i class="${diff>0.05?"over":""}" style="width:${used*100}%"></i><b style="left:calc(${timePos*100}% - 1px)"></b></div>
+      <div class="row small muted"><span>使った割合 <b class="num" style="color:var(--ink)">${Math.round(used*100)}%</b></span><span>期間の経過 <b class="num" style="color:var(--ink)">${Math.round(timePos*100)}%</b></span></div>
+      ${b&&b.fixedJPY?`<div class="small muted">固定費 RM ${rm(b.fixedMYR)}（${yen(b.fixedJPY)}）は先に引いています</div>`:""}
+    </div>
+    <div class="card">
+      <div class="card-h"><h3>今日の記録</h3><button class="link" data-go="history">すべて見る</button></div>
+      ${listHTML(todays,pd,false)}
+    </div>
+    <p class="small muted" style="text-align:center;margin:4px 0 0">${r?`レート 1 RM = ${r.toFixed(2)}円（${rateLabel()}）`:""}</p>
+  </div>`;
+}
+function setupCard(){
+  const r=todayRate(), j=S.settings.lastJPY||"";
+  return `<div class="card">
+    <div class="card-h"><h3>今回の仕送り</h3></div>
+    <div class="grid2">
+      <label class="field">仕送り（円）<input id="suJPY" type="number" inputmode="numeric" placeholder="100000" value="${j}"></label>
+      <label class="field">仕送り日（毎月）<select id="suPay">${payOpts()}</select></label>
+    </div>
+    <div class="conv" id="suConv">${convHTML(j)}</div>
+    ${r?"":`<label class="field">今日のレート（取得できない時だけ）<input id="suRate" type="number" inputmode="decimal" step="0.01" placeholder="38.76"></label>`}
+    <button class="btn" id="suSave">はじめる</button>
+  </div>`;
+}
+const payOpts=()=>Array.from({length:31},(_,i)=>`<option value="${i+1}"${i+1===payDay()?" selected":""}>${i+1}日</option>`).join("");
+function convHTML(jpy){jpy=Number(jpy);if(!(jpy>0))return "";const r=todayRate();if(!r)return "レートを取得すると換算します";return `<b>≈ RM ${rm(jpy/r)}</b>1 RM = ${r.toFixed(2)}円`;}
+
+/* ---------- HISTORY ---------- */
+function vHistory(){
+  const key=curKey(), P=period(key), pd=S.periods[key], items=expensesOf(key);
+  return `<header class="hero" style="padding-bottom:22px"><div class="hero-inner">
+    <div class="topbar"><b style="font-size:18px">履歴</b><span class="chip-glass num">${P.label}</span></div>
+    <div class="glass glass-row"><div><div class="k">この期間の出費</div><div class="v">RM ${rm(sumRM(items))}</div></div><div style="text-align:right"><div class="k">円換算</div><div class="v">${yen(sumJPY(items,pd))}</div></div></div>
+  </div></header>
+  <div class="page">${listHTML(items,pd,true)}<p class="small muted" style="text-align:center">記録をタップすると修正・削除できます</p></div>`;
+}
+
+/* ---------- REPORT ---------- */
+function vReport(){
+  const key=reportKey||curKey(); reportKey=key;
+  const P=period(key), pd=S.periods[key], b=budget(key), items=expensesOf(key), isNow=key===curKey();
+  const spent=sumRM(items), spentJPY=sumJPY(items,pd);
+  const elapsed=isNow?Math.max(1,dayDiff(P.start,new Date())+1):P.days;
+  const rs=items.map(e=>rateOf(e,pd)).filter(Boolean); const avg=rs.length?rs.reduce((a,c)=>a+c,0)/rs.length:0;
+  const by={}; items.forEach(e=>by[e.cat]=(by[e.cat]||0)+Number(e.myr));
+  const cats=Object.entries(by).sort((a,b)=>b[1]-a[1]);
+  const d=b?b.usableJPY-spentJPY:null;
+  // chart
+  const n=P.days, daily=Array(n).fill(0); items.forEach(e=>{const i=dayDiff(P.start,parseD(e.date));if(i>=0&&i<n)daily[i]+=Number(e.myr);});
+  const target=b?(b.usableJPY/n)/(avg||b.r):0;
+  const W=340,H=170,L=30,R=4,T=10,B=22, mx=Math.max(10,target,...daily), step=nice(mx), ymax=Math.ceil(mx/step)*step, bw=(W-L-R)/n, sy=v=>T+(H-T-B)*(1-v/ymax);
+  let g=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="毎日の出費"><defs><linearGradient id="gb" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7C52FF"/><stop offset="1" stop-color="#B9A3FF" stop-opacity=".55"/></linearGradient><linearGradient id="go" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F09A2C"/><stop offset="1" stop-color="#FFC98A" stop-opacity=".6"/></linearGradient></defs>`;
+  for(let v=0;v<=ymax+1e-9;v+=step) g+=`<line x1="${L}" x2="${W-R}" y1="${sy(v)}" y2="${sy(v)}" stroke="#ECEAF3"/><text x="${L-6}" y="${sy(v)+3}" font-size="9" text-anchor="end" fill="#9A97A8" font-family="Plus Jakarta Sans">${+v.toFixed(1)}</text>`;
+  daily.forEach((v,i)=>{if(v>0){const o=target&&v>target;g+=`<rect x="${L+i*bw+1}" y="${sy(v)}" width="${Math.max(2,bw-2)}" height="${sy(0)-sy(v)}" rx="${Math.min(4,bw/2-1)}" fill="url(#${o?"go":"gb"})"/>`;}});
+  if(target) g+=`<line x1="${L}" x2="${W-R}" y1="${sy(target)}" y2="${sy(target)}" stroke="#111016" stroke-dasharray="3 4" stroke-width="1.2"/>`;
+  [0,Math.floor(n/3),Math.floor(2*n/3),n-1].forEach(i=>{const dd=new Date(P.start.getFullYear(),P.start.getMonth(),P.start.getDate()+i);g+=`<text x="${L+(i+.5)*bw}" y="${H-6}" font-size="9" text-anchor="middle" fill="#9A97A8" font-family="Plus Jakarta Sans">${md_(dd)}</text>`;});
+  g+="</svg>";
+  const top5=[...items].sort((a,b)=>b.myr-a.myr).slice(0,3);
+  return `<header class="hero"><div class="hero-inner">
+    <div class="seg"><button id="rPrev" aria-label="前の期間">${svg('<path d="M15 6l-6 6 6 6"/>')}</button><b class="num">${P.label}${isNow?"（途中）":""}</b><button id="rNext" aria-label="次の期間" ${isNow?"disabled":""}>${svg('<path d="M9 6l6 6-6 6"/>')}</button></div>
+    <div class="big-wrap"><div class="big-label">使った額</div><div class="big num"><span class="cur">RM</span>${rm(spent)}</div><div class="big-sub num">${yen(spentJPY)}${avg?` ・平均 ${avg.toFixed(2)}円/RM`:""}</div></div>
+    <div class="glass glass-row">
+      <div><div class="k">${d===null?"予算":d>=0?"残り（予算内）":"オーバー"}</div><div class="v">${d===null?"–":yen(Math.abs(d))}</div></div>
+      <div style="text-align:right"><div class="k">1日平均</div><div class="v">RM ${rm(spent/elapsed)}</div></div>
+    </div>
+  </div></header>
+  <div class="page">
+    <div class="card">
+      <div class="card-h"><h3>カテゴリ</h3><span class="small muted">${items.length}件</span></div>
+      ${cats.length?`<div class="stack">${cats.map(([id,v])=>`<i style="width:${v/spent*100}%;background:${catById(id).c}"></i>`).join("")}</div>
+      <div class="legend">${cats.map(([id,v])=>{const c=catById(id);return `<div class="leg">${catIcon(id)}<span>${c.name}</span><span class="a"><b>RM ${rm(v)}</b><span>${Math.round(v/spent*100)}%</span></span></div>`;}).join("")}</div>`:`<div class="empty">この期間の記録はありません</div>`}
+    </div>
+    <div class="card chart"><div class="card-h"><h3>毎日の出費</h3><span class="small muted">RM</span></div>${g}${target?`<div class="small muted">点線は1日の目安（約 RM ${rm(target)}）。超えた日はオレンジ。</div>`:""}</div>
+    ${top5.length?`<div class="card"><div class="card-h"><h3>大きかった出費</h3></div><div class="list">${top5.map(e=>itemHTML(e,pd)).join("")}</div></div>`:""}
+    ${b?`<div class="card"><div class="card-h"><h3>この期間の内訳</h3></div>
+      <div class="row small"><span class="muted">仕送り</span><b class="num">${yen(b.allowJPY)}</b></div>
+      ${b.carryJPY?`<div class="row small"><span class="muted">前回からの繰越</span><b class="num">${yen(b.carryJPY)}</b></div>`:""}
+      <div class="row small"><span class="muted">固定費</span><b class="num">-${yen(b.fixedJPY)}</b></div>
+      <div class="row small"><span class="muted">出費</span><b class="num">-${yen(spentJPY)}</b></div>
+      <div class="row" style="border-top:1px solid var(--line);padding-top:10px"><b>残り</b><b class="num" style="color:${d>=0?"var(--good)":"var(--bad)"}">${yen(d)}</b></div></div>`:""}
+  </div>`;
+}
+function nice(max){const raw=max/4,p=Math.pow(10,Math.floor(Math.log10(raw))),n=raw/p;return (n<=1?1:n<=2?2:n<=5?5:10)*p;}
+
+/* ---------- SETTINGS ---------- */
+function vSettings(){
+  const key=curKey(), pd=S.periods[key]||{}, b=budget(key), r=todayRate(), manual=S.manualRate&&S.manualRate.date===ymd(new Date());
+  const fx=S.settings.fixed||[];
+  return `<header class="hero" style="padding-bottom:22px"><div class="hero-inner">
+    <div class="topbar"><b style="font-size:18px">仕送りと設定</b><span class="chip-glass num">${period(key).label}</span></div>
+    <div class="glass glass-row"><div><div class="k">今回使える額</div><div class="v">${b?yen(b.usableJPY):"–"}</div></div><div style="text-align:right"><div class="k">リンギット換算</div><div class="v">${b?"RM "+rm(b.usableJPY/b.r):"–"}</div></div></div>
+  </div></header>
+  <div class="page">
+    <div class="card">
+      <div class="card-h"><h3>今回の仕送り</h3></div>
+      <div class="grid2">
+        <label class="field">仕送り（円）<input id="stJPY" type="number" inputmode="numeric" value="${pd.allowanceJPY||S.settings.lastJPY||""}"></label>
+        <label class="field">仕送り日（毎月）<select id="stPay">${payOpts()}</select></label>
+      </div>
+      <div class="conv" id="stConv">${convHTML(pd.allowanceJPY||S.settings.lastJPY)}</div>
+      <button class="btn" id="stSave">保存</button>
+    </div>
+    <div class="card">
+      <div class="card-h"><h3>レート</h3><span class="small muted">${rateLabel()}</span></div>
+      <div class="row"><span class="muted small">1 RM</span><b class="num" style="font-size:22px">${r?r.toFixed(3):"–"} 円</b></div>
+      <div class="small muted">アプリを開くたびに自動で取得します（欧州中央銀行の公表値・平日更新）。実際に両替したレートを使いたい日だけ入力してください。</div>
+      <div class="grid2" style="align-items:end">
+        <label class="field">今日だけ手入力<input id="mrV" type="number" inputmode="decimal" step="0.001" placeholder="${r?r.toFixed(2):"38.76"}"></label>
+        <button class="btn sm ${manual?"ghost":""}" id="mrSave" style="width:100%;padding:13px">${manual?"自動に戻す":"この値を使う"}</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-h"><h3>固定費</h3><span class="small muted">毎月先に引く</span></div>
+      <div>${fx.length?fx.map((f,i)=>`<div class="fx-row"><span>${esc(f.name)}</span><span class="row" style="gap:10px"><b class="num">RM ${rm(Number(f.myr))}</b><button class="x" data-fx="${i}" aria-label="${esc(f.name)}を削除">${svg('<path d="M6 6l12 12M18 6L6 18"/>')}</button></span></div>`).join(""):`<div class="small muted">ネット代・ジムなど、毎月かかる見込み額を入れておくと先に引きます。</div>`}</div>
+      <div class="grid2"><label class="field">名前<input id="fxN" type="text" placeholder="ネット代"></label><label class="field">金額（RM）<input id="fxA" type="number" inputmode="decimal" step="0.01" placeholder="40"></label></div>
+      <button class="btn ghost" id="fxAdd">固定費を追加</button>
+    </div>
+    <div class="card">
+      <label class="switch"><span><b style="display:block;font-weight:700">残りを繰り越す</b><span class="small muted">前回の期間で余った円を、次の仕送りに足します</span></span><input type="checkbox" id="carry" ${S.settings.carry?"checked":""}></label>
+    </div>
+    <div class="card">
+      <div class="card-h"><h3>バックアップ</h3></div>
+      <div class="small muted">記録はこのiPhoneの中に保存されています。機種変更に備えて、ときどき書き出しておくと安心です。</div>
+      <div class="grid2"><button class="btn ghost" id="bkOut">書き出す</button><button class="btn ghost" id="bkIn">読み込む</button></div>
+      <input type="file" id="bkFile" accept="application/json,.json" hidden>
+    </div>
+    <p class="small muted" style="text-align:center">Runway ・ 記録 ${S.expenses.length}件</p>
+  </div>`;
+}
+
+/* ================= actions ================= */
+function startPeriod(jpy){
+  const key=curKey(); let carryJPY=0;
+  if(S.settings.carry){const pk=shiftMonth(key,-1),pb=budget(pk);if(pb)carryJPY=Math.round(pb.usableJPY-sumJPY(expensesOf(pk),S.periods[pk]));}
+  S.periods[key]={...(S.periods[key]||{}),allowanceJPY:jpy,rate:todayRate()||null,fixed:S.settings.fixed||[],carryJPY,start:period(key).startStr};
+  S.settings.lastJPY=jpy;
+}
+function bindView(){
+  const on=(id,ev,fn)=>{const el=document.getElementById(id);if(el)el.addEventListener(ev,fn);};
+  on("suJPY","input",e=>$("#suConv").innerHTML=convHTML(e.target.value));
+  on("stJPY","input",e=>$("#stConv").innerHTML=convHTML(e.target.value));
+  on("suSave","click",()=>{
+    const j=Number($("#suJPY").value); if(!(j>0)) return toast("仕送りの金額を入れてください");
+    const ri=$("#suRate"); if(ri){const r=Number(ri.value); if(!(r>0)) return toast("今日のレートを入れてください"); S.manualRate={v:r,date:ymd(new Date())};}
+    S.settings.payDay=Number($("#suPay").value)||1; startPeriod(j); save(); render(); toast(`仕送り ${yen(j)} を登録しました`);
+  });
+  on("stSave","click",()=>{
+    const j=Number($("#stJPY").value); if(!(j>0)) return toast("仕送りの金額を入れてください");
+    S.settings.payDay=Number($("#stPay").value)||1; startPeriod(j); save(); render(); toast("保存しました");
+  });
+  on("mrSave","click",()=>{
+    const manual=S.manualRate&&S.manualRate.date===ymd(new Date());
+    if(manual){S.manualRate=null;save();render();toast("自動のレートに戻しました");return;}
+    const v=Number($("#mrV").value); if(!(v>5&&v<200)) return toast("レートを入れてください（例 38.76）");
+    S.manualRate={v,date:ymd(new Date())}; save(); render(); toast("今日のレートを更新しました");
+  });
+  on("fxAdd","click",()=>{
+    const n=$("#fxN").value.trim(), a=Number($("#fxA").value); if(!n||!(a>0)) return toast("名前と金額を入れてください");
+    S.settings.fixed=[...(S.settings.fixed||[]),{name:n,myr:Math.round(a*100)/100}];
+    const pd=S.periods[curKey()]; if(pd) pd.fixed=S.settings.fixed; save(); render(); toast("固定費を追加しました");
+  });
+  on("carry","change",e=>{S.settings.carry=e.target.checked;save();});
+  on("bkOut","click",exportData);
+  on("bkIn","click",()=>$("#bkFile").click());
+  on("bkFile","change",importData);
+  on("rPrev","click",()=>{reportKey=shiftMonth(reportKey||curKey(),-1);render();});
+  on("rNext","click",()=>{const k=shiftMonth(reportKey||curKey(),1);if(k<=curKey()){reportKey=k;render();}});
+}
+document.addEventListener("click",e=>{
+  const t=e.target.closest("[data-go],[data-add],[data-edit],[data-fx]"); if(!t) return;
+  if(t.dataset.go!==undefined) return go(t.dataset.go);
+  if(t.dataset.add!==undefined) return openSheet(null);
+  if(t.dataset.edit) return openSheet(S.expenses.find(x=>x.id===t.dataset.edit));
+  if(t.dataset.fx!==undefined){S.settings.fixed=S.settings.fixed.filter((_,i)=>i!==Number(t.dataset.fx));const pd=S.periods[curKey()];if(pd)pd.fixed=S.settings.fixed;save();render();}
+});
+
+async function exportData(){
+  const name=`runway-backup-${ymd(new Date())}.json`, text=JSON.stringify(S,null,1);
+  const file=new File([text],name,{type:"application/json"});
+  try{ if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:"Runway バックアップ"});return;} }catch(e){ if(e&&e.name==="AbortError") return; }
+  const a=document.createElement("a"); a.href=URL.createObjectURL(file); a.download=name; document.body.appendChild(a); a.click(); a.remove();
+}
+function importData(e){
+  const f=e.target.files&&e.target.files[0]; if(!f) return;
+  const rd=new FileReader(); rd.onload=()=>{
+    try{const d=JSON.parse(rd.result); if(!d||!d.settings||!Array.isArray(d.expenses)) throw 0;
+      S=Object.assign(blank(),d); save(); render(); toast(`${S.expenses.length}件を読み込みました`);}catch(err){toast("このファイルは読み込めません");}
+  }; rd.readAsText(f); e.target.value="";
+}
+
+/* ================= add / edit sheet ================= */
+let draft=null;
+function openSheet(ex){
+  const r=todayRate();
+  draft=ex?{id:ex.id,amt:String(ex.myr),cat:ex.cat,note:ex.note||"",date:ex.date,rate:ex.rate,createdAt:ex.createdAt,confirm:false}
+          :{id:null,amt:"",cat:S.lastCat||"eatout",note:"",date:ymd(new Date()),rate:r,confirm:false};
+  renderSheet(); $("#sheet").hidden=false; document.body.style.overflow="hidden";
+}
+function closeSheet(){ $("#sheet").hidden=true; document.body.style.overflow=""; draft=null; }
+function renderSheet(){
+  const d=draft, v=Number(d.amt)||0, r=d.rate||todayRate(), dd=parseD(d.date), isToday=d.date===ymd(new Date());
+  const notes=[...new Set(S.expenses.filter(e=>e.cat===d.cat&&e.note).sort((a,b)=>(b.createdAt||"").localeCompare(a.createdAt||"")).map(e=>e.note))].slice(0,4);
+  $("#sheet").innerHTML=`<div class="sheet-in">
+    <div class="sheet-top">
+      <button class="round" id="shClose" aria-label="閉じる">${svg('<path d="M6 6l12 12M18 6L6 18"/>')}</button>
+      <b>${d.id?"記録を修正":"出費を記録"}</b>
+      <label class="chip-glass date-chip">${svg('<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/>',2).replace('<svg','<svg style="width:14px;height:14px"')}<span class="num">${isToday?"今日":md_(dd)+"("+wd(dd)+")"}</span><input type="date" id="shDate" value="${d.date}" aria-label="日付"></label>
+    </div>
+    <div class="amount"><div class="big num ${v?"":"zero"}"><span class="cur">RM</span>${d.amt||"0"}</div><div class="yen">${v&&r?`≈ ${yen(v*r)}（1 RM = ${r.toFixed(2)}円）`:""}</div></div>
+    <div class="cats" role="group" aria-label="カテゴリ">${CATS.map(c=>`<button class="cat" data-c="${c.id}" aria-pressed="${c.id===d.cat}" style="--cc:${c.c}"><span class="ci">${svg(ICON[c.id])}</span>${c.name}</button>`).join("")}</div>
+    <label class="note">${svg('<path d="M4 20h4L19 9l-4-4L4 16z"/>')}<input id="shNote" type="text" placeholder="メモ（例 Grab 大学まで）" value="${esc(d.note)}" enterkeyhint="done"></label>
+    ${notes.length?`<div class="recent">${notes.map(n=>`<button data-n="${esc(n)}">${esc(n)}</button>`).join("")}</div>`:""}
+    <div class="keys">${["1","2","3","4","5","6","7","8","9",".","0","del"].map(k=>`<button data-k="${k}" aria-label="${k==="del"?"1文字消す":k}">${k==="del"?svg('<path d="M21 5H9l-6 7 6 7h12z"/><path d="M17 9l-5 6M12 9l5 6"/>'):k}</button>`).join("")}</div>
+    <div class="sheet-actions">
+      ${d.id?`<button class="btn del ${d.confirm?"confirm-del":""}" id="shDel">${d.confirm?"本当に削除":svg('<path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/>')}</button>`:""}
+      <button class="btn light" id="shSave" ${v>0?"":"disabled"}>${d.id?"修正を保存":"記録する"}</button>
+    </div>
+  </div>`;
+  const sh=$("#sheet");
+  sh.querySelector("#shClose").onclick=closeSheet;
+  sh.querySelector("#shDate").onchange=e=>{if(e.target.value){draft.date=e.target.value;renderSheet();}};
+  sh.querySelector("#shNote").oninput=e=>{draft.note=e.target.value;};
+  sh.querySelector("#shNote").onkeydown=e=>{if(e.key==="Enter")e.target.blur();};
+  sh.querySelectorAll("[data-c]").forEach(b=>b.onclick=()=>{draft.cat=b.dataset.c;draft.confirm=false;const x=sh.querySelector(".cats").scrollLeft;renderSheet();$("#sheet .cats").scrollLeft=x;});
+  sh.querySelectorAll("[data-n]").forEach(b=>b.onclick=()=>{draft.note=b.dataset.n;renderSheet();});
+  sh.querySelectorAll("[data-k]").forEach(b=>b.onclick=()=>key(b.dataset.k));
+  const del=sh.querySelector("#shDel"); if(del) del.onclick=()=>{ if(!draft.confirm){draft.confirm=true;renderSheet();return;} S.expenses=S.expenses.filter(e=>e.id!==draft.id); save(); closeSheet(); render(); toast("削除しました"); };
+  sh.querySelector("#shSave").onclick=commit;
+}
+function key(k){
+  let a=draft.amt;
+  if(k==="del") a=a.slice(0,-1);
+  else if(k==="."){ if(!a.includes(".")) a=(a||"0")+"."; }
+  else { if(a.includes(".")&&a.split(".")[1].length>=2) return; if(a==="0") a=""; if(a.replace(".","").length>=7) return; a+=k; }
+  draft.amt=a; draft.confirm=false;
+  const v=Number(a)||0, r=draft.rate||todayRate();
+  const big=$("#sheet .amount .big"); big.innerHTML=`<span class="cur">RM</span>${a||"0"}`; big.classList.toggle("zero",!v);
+  $("#sheet .amount .yen").textContent=v&&r?`≈ ${yen(v*r)}（1 RM = ${r.toFixed(2)}円）`:"";
+  $("#shSave").disabled=!(v>0);
+}
+function commit(){
+  const v=Math.round(Number(draft.amt)*100)/100; if(!(v>0)) return;
+  const r=draft.id?(draft.rate||todayRate()):todayRate();
+  const body={id:draft.id||uid(),myr:v,cat:draft.cat,note:(draft.note||"").trim(),date:draft.date,rate:r||null,createdAt:draft.createdAt||new Date().toISOString()};
+  if(draft.id) S.expenses=S.expenses.map(e=>e.id===draft.id?body:e); else S.expenses.push(body);
+  S.lastCat=draft.cat; save(); const wasEdit=!!draft.id; closeSheet(); render();
+  toast(wasEdit?"修正しました":`RM ${rm(v)}${r?`（${yen(v*r)}）`:""} を記録しました`);
+}
+
+/* ================= boot ================= */
+render();
+fetchRate();
+document.addEventListener("visibilitychange",()=>{ if(!document.hidden){ const f=S.rate&&S.rate.fetched; if(!f||Date.now()-new Date(f).getTime()>3*3600e3) fetchRate(); render(); }});
+if(navigator.storage&&navigator.storage.persist) navigator.storage.persist().catch(()=>{});
+if("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(()=>{});
+{const h=location.hash.slice(1); if(h==="add") openSheet(null); else if(["history","report","settings"].includes(h)) go(h);}
+</script>
+</body>
+</html>
