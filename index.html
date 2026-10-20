@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1">
-<title>Runway</title>
+<title>syuppee</title>
 <meta name="theme-color" content="#F26B1D">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Runway">
+<meta name="apple-mobile-web-app-title" content="syuppee">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="icon" href="icon-192.png">
@@ -547,9 +547,9 @@ document.addEventListener("click",e=>{
 });
 
 async function exportData(){
-  const name=`runway-backup-${ymd(new Date())}.json`, text=JSON.stringify(S,null,1);
+  const name=`syuppee-backup-${ymd(new Date())}.json`, text=JSON.stringify(S,null,1);
   const file=new File([text],name,{type:"application/json"});
-  try{ if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:"Runway バックアップ"});return;} }catch(e){ if(e&&e.name==="AbortError") return; }
+  try{ if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:"syuppee バックアップ"});return;} }catch(e){ if(e&&e.name==="AbortError") return; }
   const a=document.createElement("a"); a.href=URL.createObjectURL(file); a.download=name; document.body.appendChild(a); a.click(); a.remove();
 }
 function importData(e){

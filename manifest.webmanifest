@@ -1,6 +1,6 @@
 {
-  "name": "Runway 仕送り帳",
-  "short_name": "Runway",
+  "name": "syuppee",
+  "short_name": "syuppee",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
