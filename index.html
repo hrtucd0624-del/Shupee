@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1">
-<title>syuppee</title>
+<title>Shupee</title>
 <meta name="theme-color" content="#F26B1D">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="syuppee">
+<meta name="apple-mobile-web-app-title" content="Shupee">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="icon" href="icon-192.png">
@@ -191,7 +191,50 @@ input,select{font:inherit;color:inherit}
 .sheet-actions .btn.del{flex:0 0 auto;width:auto;padding:16px 18px;background:rgba(255,255,255,.14);border:1px solid var(--glass-b);color:#fff}
 .confirm-del{background:#fff;color:var(--bad)!important}
 
-.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(92px + var(--sab));background:var(--ink);color:#fff;padding:11px 18px;border-radius:999px;font-size:14px;z-index:80;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.2)}
+.sheet-in{overflow-y:auto;scrollbar-width:none}
+.sheet-in > *{flex-shrink:0}
+.sheet-in::-webkit-scrollbar{display:none}
+.split-tg{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--glass);border:1px solid var(--glass-b);border-radius:16px;padding:10px 12px 10px 14px;width:100%;text-align:left}
+.split-tg .sw{width:44px;height:26px;border-radius:99px;background:rgba(255,255,255,.25);position:relative;flex:none;transition:background .2s}
+.split-tg .sw::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:transform .2s}
+.split-tg[aria-pressed="true"] .sw{background:var(--ink)}
+.split-tg[aria-pressed="true"] .sw::after{transform:translateX(18px)}
+.split-box{background:rgba(255,255,255,.12);border:1px solid var(--glass-b);border-radius:18px;padding:12px;display:flex;flex-direction:column;gap:10px}
+.fr-chips{display:flex;gap:6px;flex-wrap:wrap}
+.fr{padding:7px 12px;border-radius:99px;background:rgba(255,255,255,.14);border:1px solid var(--glass-b);font-size:14px}
+.fr[aria-pressed="true"]{background:#fff;color:var(--ink);border-color:#fff;font-weight:700}
+.fr.add{border-style:dashed}
+.fr-new{display:flex;gap:6px}
+.fr-new input{flex:1;min-width:0;background:rgba(255,255,255,.14);border:1px solid var(--glass-b);border-radius:12px;color:#fff;padding:9px 12px;font-size:16px;outline:none}
+.fr-new input::placeholder{color:rgba(255,255,255,.6)}
+.fr-new button{padding:0 14px;border-radius:12px;background:#fff;color:var(--ink);font-weight:700;font-size:14px}
+.share-row{display:grid;grid-template-columns:1fr 110px;gap:8px;align-items:center;font-size:14px}
+.share-row input{background:rgba(255,255,255,.14);border:1px solid var(--glass-b);border-radius:12px;color:#fff;padding:8px 10px;font-size:16px;text-align:right;font-family:var(--num);width:100%;outline:none}
+.split-sum{font-size:13px;font-family:var(--num);opacity:.92;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.split-sum b{font-size:15px}
+.tabs2{display:grid;grid-template-columns:1fr 1fr;background:var(--glass);border:1px solid var(--glass-b);border-radius:99px;padding:4px}
+.tabs2 button{padding:9px 0;border-radius:99px;font-weight:700;font-size:14px}
+.tabs2 button[aria-pressed="true"]{background:#fff;color:var(--v900)}
+.person{background:var(--card);border-radius:var(--r-lg);padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.p-head{display:flex;align-items:center;gap:12px}
+.p-av{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--v100);color:var(--v900);font-weight:800;flex:none}
+.p-av.out{background:#FDE7E8;color:var(--bad)}
+.p-head .nm{flex:1;min-width:0;font-weight:700}
+.p-head .nm span{display:block;font-size:12px;color:var(--ink3);font-weight:500}
+.p-head .tot{font-family:var(--num);font-weight:800;font-size:18px}
+.p-items{border-top:1px solid var(--line);padding-top:6px;display:flex;flex-direction:column}
+.p-item{display:flex;justify-content:space-between;gap:10px;font-size:13px;padding:5px 0;color:var(--ink2)}
+.p-item b{font-family:var(--num);color:var(--ink);font-weight:600}
+.p-item .old{color:var(--bad);font-weight:700}
+.p-btns{display:flex;gap:8px}
+.p-btns .btn{padding:11px 14px;font-size:14px}
+.settle-row{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:end}
+.ledger-mini{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ledger-mini > div{background:var(--bg);border-radius:16px;padding:12px}
+.ledger-mini .k{font-size:12px;color:var(--ink2)}
+.ledger-mini .v{font-family:var(--num);font-weight:800;font-size:19px}
+.ledger-mini .s{font-size:11px;color:var(--ink3)}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(92px + var(--sab));background:var(--ink);color:#fff;padding:11px 18px;border-radius:999px;font-size:14px;z-index:80;white-space:normal;text-align:center;width:max-content;max-width:calc(100% - 32px);box-shadow:0 8px 24px rgba(0,0,0,.2)}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -231,12 +274,21 @@ const CATS=[
   {id:"study",name:"勉強",c:"#4F46E5",bg:"#E7E6FC"},
   {id:"fun",name:"趣味・娯楽",c:"#D6409F",bg:"#FBE4F2"},
   {id:"other",name:"その他",c:"#6E6A7C",bg:"#EEEDF2"}];
-const catById=id=>CATS.find(c=>c.id===id)||CATS[CATS.length-1];
+const LENT={id:"lent",name:"立て替え（返ってくる分）",c:"#A49A92",bg:"#F0ECE8"};
+ICON.lent='<path d="M7 7h11l-3-3M17 17H6l3 3"/>';
+const catById=id=>id==="lent"?LENT:(CATS.find(c=>c.id===id)||CATS[CATS.length-1]);
+/* 貸し借り: dir "in" = 返してもらう, "out" = 返す */
+const iouLeft=i=>Math.round((Number(i.myr)-Number(i.paid||0))*100)/100;
+const openIous=dir=>(S.ious||[]).filter(i=>i.dir===dir&&!i.settledAt&&iouLeft(i)>0);
+function byPerson(dir){const m={};openIous(dir).forEach(i=>{(m[i.name]=m[i.name]||[]).push(i);});
+  return Object.entries(m).map(([name,items])=>({name,items:items.sort((a,b)=>a.date.localeCompare(b.date)),total:items.reduce((s,i)=>s+iouLeft(i),0)})).sort((a,b)=>b.total-a.total);}
+const sumOpen=dir=>openIous(dir).reduce((s,i)=>s+iouLeft(i),0);
+function addFriend(n){n=(n||"").trim();if(!n)return;S.friends=[n,...(S.friends||[]).filter(f=>f!==n)].slice(0,30);}
 const svg=(p,w=2)=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
 const catIcon=(id)=>{const c=catById(id);return `<span class="cat-ic" style="background:${c.bg};color:${c.c}">${svg(ICON[c.id])}</span>`;};
 
 const KEY="runway.v1";
-const blank=()=>({settings:{payDay:25,fixed:[],carry:false,lastJPY:null},periods:{},expenses:[],rate:null,manualRate:null});
+const blank=()=>({settings:{payDay:25,fixed:[],carry:false,lastJPY:null},periods:{},expenses:[],ious:[],friends:[],rate:null,manualRate:null});
 let S=load();
 function load(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&s.settings)return Object.assign(blank(),s);}catch(e){}return blank();}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S));return true;}catch(e){toast("保存できませんでした");return false;}}
@@ -303,18 +355,19 @@ function budget(key){
   const r=key===curKey()?todayRate():(Number(pd.rate)||todayRate()); if(!r) return null;
   const fixedMYR=(pd.fixed||S.settings.fixed||[]).reduce((s,f)=>s+Number(f.myr||0),0);
   const fixedJPY=fixedMYR*r, carryJPY=Number(pd.carryJPY||0);
-  return {pd,r,allowJPY:Number(pd.allowanceJPY),fixedMYR,fixedJPY,carryJPY,usableJPY:Number(pd.allowanceJPY)-fixedJPY+carryJPY};
+  const adjustJPY=Number(pd.adjustJPY||0);
+  return {pd,r,allowJPY:Number(pd.allowanceJPY),fixedMYR,fixedJPY,carryJPY,adjustJPY,usableJPY:Number(pd.allowanceJPY)-fixedJPY+carryJPY+adjustJPY};
 }
 
 /* ================= UI ================= */
 let view="home", reportKey=null;
 function toast(t){const el=$("#toast");el.textContent=t;el.hidden=false;clearTimeout(toast._t);toast._t=setTimeout(()=>el.hidden=true,1900);}
 function go(v){view=v;document.querySelectorAll(".nav [data-go]").forEach(b=>{if(b.dataset.go===v)b.setAttribute("aria-current","page");else b.removeAttribute("aria-current");});if(v!=="report")reportKey=null;render();window.scrollTo(0,0);}
-function render(){ const app=$("#app"); app.innerHTML= view==="home"?vHome(): view==="history"?vHistory(): view==="report"?vReport(): vSettings(); bindView(); }
+function render(){ const app=$("#app"); app.innerHTML= view==="home"?vHome(): view==="history"?vHistory(): view==="report"?vReport(): view==="ledger"?vLedger(): vSettings(); bindView(); }
 
 function itemHTML(e,pd){
   const c=catById(e.cat), r=rateOf(e,pd);
-  return `<button class="item" data-edit="${esc(e.id)}">${catIcon(e.cat)}<span class="t"><b>${esc(e.note)||c.name}</b><span>${c.name}</span></span><span class="a"><b>RM ${rm(Number(e.myr))}</b><span>${r?yen(e.myr*r):""}</span></span></button>`;
+  return `<button class="item" data-edit="${esc(e.id)}">${catIcon(e.cat)}<span class="t"><b>${esc(e.note)||c.name}</b><span>${c.name}${Number(e.lent)>0?` ・ 立て替え RM ${rm(Number(e.lent))}`:""}</span></span><span class="a"><b>RM ${rm(Number(e.myr))}</b><span>${r?yen(e.myr*r):""}</span></span></button>`;
 }
 function listHTML(items,pd,grouped){
   if(!items.length) return `<div class="empty">${grouped?"この期間の記録はまだありません":"今日はまだ記録なし。下の ＋ から記録しよう"}</div>`;
@@ -352,7 +405,7 @@ function vHome(){
       <div class="big-sub num">${b?(over?`明日から1日 RM ${rm(tomorrowJPY/b.r)}`:`今日の枠 RM ${rm(perDayJPY/b.r)}・${yen(perDayJPY)}`):"レート取得中…"}</div>
     </div>
     <div class="glass">
-      <div class="glass-row"><div><div class="k">円の残金</div><div class="v">${yen(remainingJPY)}</div></div>
+      <div class="glass-row"><div><div class="k">カード残高</div><div class="v">${yen(remainingJPY)}</div><div class="k num" style="margin-top:2px">≈ RM ${b?rm(remainingJPY/b.r):"–"}</div></div>
       <div style="text-align:right"><div class="k">次の仕送り</div><div class="v">${md_(P.end)}<span style="font-size:13px;font-weight:600;opacity:.8"> あと${daysLeft}日</span></div></div></div>
       <div class="track"><i style="width:${(1-used)*100}%"></i></div>
     </div>
@@ -362,7 +415,7 @@ function vHome(){
       <button class="act" data-add>${svg('<path d="M12 5v14M5 12h14"/>')}記録</button>
       <button class="act" data-go="report">${svg('<path d="M4 20V11M10 20V5M16 20v-6M21 20H3"/>')}レポート</button>
       <button class="act" data-go="history">${svg('<path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>')}履歴</button>
-      <button class="act" data-go="settings">${svg('<path d="M3 7h18v12H3zM3 10h18M7 15h3"/>')}仕送り</button>
+      <button class="act" data-go="ledger">${svg(ICON.lent)}貸し借り</button>
     </div>
     <div class="tiles">
       <div class="tile"><span class="ic">${svg('<path d="M4 7h16v12H4z"/><path d="M16 12h.01M4 9l3-4h10l3 4"/>')}</span><span class="k">今回使った額</span><span class="v num">RM ${rm(sumRM(items))}</span><span class="s num">${yen(spentJPY)}</span></div>
@@ -374,6 +427,7 @@ function vHome(){
       <div class="row small muted"><span>使った割合 <b class="num" style="color:var(--ink)">${Math.round(used*100)}%</b></span><span>期間の経過 <b class="num" style="color:var(--ink)">${Math.round(timePos*100)}%</b></span></div>
       ${b&&b.fixedJPY?`<div class="small muted">固定費 RM ${rm(b.fixedMYR)}（${yen(b.fixedJPY)}）は先に引いています</div>`:""}
     </div>
+    ${ledgerMini()}
     <div class="card">
       <div class="card-h"><h3>今日の記録</h3><button class="link" data-go="history">すべて見る</button></div>
       ${listHTML(todays,pd,false)}
@@ -385,8 +439,9 @@ function setupCard(){
   const r=todayRate(), j=S.settings.lastJPY||"";
   return `<div class="card">
     <div class="card-h"><h3>今回の仕送り</h3></div>
+    <div class="small muted">カードに入った仕送りの額（または今のカード残高）を円で入れてください。</div>
     <div class="grid2">
-      <label class="field">仕送り（円）<input id="suJPY" type="number" inputmode="numeric" placeholder="100000" value="${j}"></label>
+      <label class="field">カードの金額（円）<input id="suJPY" type="number" inputmode="numeric" placeholder="100000" value="${j}"></label>
       <label class="field">仕送り日（毎月）<select id="suPay">${payOpts()}</select></label>
     </div>
     <div class="conv" id="suConv">${convHTML(j)}</div>
@@ -414,7 +469,8 @@ function vReport(){
   const spent=sumRM(items), spentJPY=sumJPY(items,pd);
   const elapsed=isNow?Math.max(1,dayDiff(P.start,new Date())+1):P.days;
   const rs=items.map(e=>rateOf(e,pd)).filter(Boolean); const avg=rs.length?rs.reduce((a,c)=>a+c,0)/rs.length:0;
-  const by={}; items.forEach(e=>by[e.cat]=(by[e.cat]||0)+Number(e.myr));
+  const by={}; items.forEach(e=>{const l=Math.min(Number(e.lent||0),Number(e.myr));by[e.cat]=(by[e.cat]||0)+Number(e.myr)-l;if(l>0)by.lent=(by.lent||0)+l;});
+  Object.keys(by).forEach(k=>{if(by[k]<=0.004)delete by[k];});
   const cats=Object.entries(by).sort((a,b)=>b[1]-a[1]);
   const d=b?b.usableJPY-spentJPY:null;
   // chart
@@ -447,8 +503,9 @@ function vReport(){
     ${b?`<div class="card"><div class="card-h"><h3>この期間の内訳</h3></div>
       <div class="row small"><span class="muted">仕送り</span><b class="num">${yen(b.allowJPY)}</b></div>
       ${b.carryJPY?`<div class="row small"><span class="muted">前回からの繰越</span><b class="num">${yen(b.carryJPY)}</b></div>`:""}
+      ${b.adjustJPY?`<div class="row small"><span class="muted">残高の調整</span><b class="num">${b.adjustJPY>0?"+":""}${yen(b.adjustJPY)}</b></div>`:""}
       <div class="row small"><span class="muted">固定費</span><b class="num">-${yen(b.fixedJPY)}</b></div>
-      <div class="row small"><span class="muted">出費</span><b class="num">-${yen(spentJPY)}</b></div>
+      <div class="row small"><span class="muted">カードの支払い</span><b class="num">-${yen(spentJPY)}</b></div>
       <div class="row" style="border-top:1px solid var(--line);padding-top:10px"><b>残り</b><b class="num" style="color:${d>=0?"var(--good)":"var(--bad)"}">${yen(d)}</b></div></div>`:""}
   </div>`;
 }
@@ -466,11 +523,20 @@ function vSettings(){
     <div class="card">
       <div class="card-h"><h3>今回の仕送り</h3></div>
       <div class="grid2">
-        <label class="field">仕送り（円）<input id="stJPY" type="number" inputmode="numeric" value="${pd.allowanceJPY||S.settings.lastJPY||""}"></label>
+        <label class="field">カードの金額（円）<input id="stJPY" type="number" inputmode="numeric" value="${pd.allowanceJPY||S.settings.lastJPY||""}"></label>
         <label class="field">仕送り日（毎月）<select id="stPay">${payOpts()}</select></label>
       </div>
       <div class="conv" id="stConv">${convHTML(pd.allowanceJPY||S.settings.lastJPY)}</div>
       <button class="btn" id="stSave">保存</button>
+    </div>
+    <div class="card">
+      <div class="card-h"><h3>カード残高を合わせる</h3></div>
+      <div class="small muted">銀行アプリで見た実際の残高を入れると、アプリの残高をそれに合わせます。両替レートの差や手数料でずれたときに使ってください。</div>
+      <div class="row small"><span class="muted">アプリ上の残高</span><b class="num">${b?yen(b.usableJPY-sumJPY(expensesOf(key),pd)):"–"}</b></div>
+      <div class="grid2" style="align-items:end">
+        <label class="field">実際の残高（円）<input id="syJPY" type="number" inputmode="numeric" placeholder="例 52340"></label>
+        <button class="btn sm" id="sySave" style="width:100%;padding:13px">合わせる</button>
+      </div>
     </div>
     <div class="card">
       <div class="card-h"><h3>レート</h3><span class="small muted">${rateLabel()}</span></div>
@@ -498,6 +564,87 @@ function vSettings(){
     </div>
     <p class="small muted" style="text-align:center">記録 ${S.expenses.length}件</p>
   </div>`;
+}
+
+/* ---------- 貸し借り ---------- */
+let ledgerTab="in", settling=null, ledgerForm=false, showDone=false;
+function ledgerMini(){
+  const a=sumOpen("in"), b=sumOpen("out"), na=byPerson("in").length, nb=byPerson("out").length;
+  return `<button class="card" data-go="ledger" style="text-align:left;width:100%">
+    <div class="card-h"><h3>貸し借り</h3><span class="link">見る</span></div>
+    <div class="ledger-mini">
+      <div><div class="k">返してもらう</div><div class="v num" style="color:var(--good)">RM ${rm(a)}</div><div class="s">${na?na+"人":"なし"}</div></div>
+      <div><div class="k">返す（TNG）</div><div class="v num" style="color:${b?"var(--bad)":"var(--ink)"}">RM ${rm(b)}</div><div class="s">${nb?nb+"人":"なし"}</div></div>
+    </div></button>`;
+}
+function vLedger(){
+  const dir=ledgerTab, people=byPerson(dir), today=new Date();
+  const done=(S.ious||[]).filter(i=>i.dir===dir&&(i.settledAt||iouLeft(i)<=0)).sort((a,b)=>(b.settledAt||"").localeCompare(a.settledAt||"")).slice(0,15);
+  const form=ledgerForm?`<div class="card">
+      <div class="card-h"><h3>${dir==="in"?"貸しをメモ":"借りをメモ"}</h3><button class="x" id="lgCancel" aria-label="閉じる">${svg('<path d="M6 6l12 12M18 6L6 18"/>')}</button></div>
+      <div class="grid2"><label class="field">名前<input id="lgName" type="text" list="frList" placeholder="友達の名前"></label><label class="field">金額（RM）<input id="lgAmt" type="number" inputmode="decimal" step="0.01" placeholder="20.00"></label></div>
+      <datalist id="frList">${(S.friends||[]).map(f=>`<option value="${esc(f)}">`).join("")}</datalist>
+      <label class="field">何の分？<input id="lgNote" type="text" placeholder="${dir==="in"?"例 現金で立て替え":"例 外食 払ってもらった"}"></label>
+      <button class="btn" id="lgSave">メモする</button>
+      ${dir==="out"?`<div class="small muted">借りはカード残高には影響しません（TNGで返す前提）。</div>`:`<div class="small muted">カードで払った割り勘は、記録画面の「割り勘」で入れると自動でここに入ります。</div>`}
+    </div>`:"";
+  const cards=people.map(p=>{
+    const oldest=dayDiff(parseD(p.items[0].date),today);
+    const isSet=settling===p.name;
+    return `<div class="person">
+      <div class="p-head"><span class="p-av ${dir==="out"?"out":""}">${esc(p.name.slice(0,1).toUpperCase())}</span><span class="nm">${esc(p.name)}<span>${p.items.length}件${oldest>=3?`・<b style="color:var(--bad)">${oldest}日前から</b>`:""}</span></span><span class="tot" style="color:${dir==="in"?"var(--good)":"var(--bad)"}">RM ${rm(p.total)}</span></div>
+      <div class="p-items">${p.items.map(i=>{const age=dayDiff(parseD(i.date),today);return `<div class="p-item"><span class="${age>=3?"old":""}">${md_(parseD(i.date))} ${esc(i.note||"")}</span><b>RM ${rm(iouLeft(i))}${Number(i.paid)?` <span style="color:var(--ink3);font-weight:500">/ ${rm(Number(i.myr))}</span>`:""}</b></div>`;}).join("")}</div>
+      ${isSet?`<div class="settle-row"><label class="field">${dir==="in"?"返してもらった額（RM）":"返した額（RM）"}<input id="stlAmt" type="number" inputmode="decimal" step="0.01" value="${p.total.toFixed(2)}"></label><button class="btn sm" id="stlOk" data-name="${esc(p.name)}" style="padding:13px 16px">精算</button></div>
+        <button class="small muted" id="stlCancel" style="text-align:center">キャンセル</button>`
+      :`<div class="p-btns">${dir==="in"?`<button class="btn ghost" data-copy="${esc(p.name)}">催促文をコピー</button>`:`<button class="btn ghost" data-copy="${esc(p.name)}">メモをコピー</button>`}<button class="btn" data-settle="${esc(p.name)}">${dir==="in"?"返してもらった":"返した"}</button></div>`}
+    </div>`;}).join("");
+  return `<header class="hero" style="padding-bottom:22px"><div class="hero-inner">
+    <div class="topbar"><b style="font-size:18px">貸し借り</b><span class="chip-glass">TNGで精算</span></div>
+    <div class="glass glass-row"><div><div class="k">返してもらう</div><div class="v">RM ${rm(sumOpen("in"))}</div></div><div style="text-align:right"><div class="k">返す</div><div class="v">RM ${rm(sumOpen("out"))}</div></div></div>
+    <div class="tabs2"><button data-tab="in" aria-pressed="${dir==="in"}">返してもらう</button><button data-tab="out" aria-pressed="${dir==="out"}">返す</button></div>
+  </div></header>
+  <div class="page">
+    ${form||`<button class="btn ghost" id="lgOpen">＋ ${dir==="in"?"貸しをメモ":"借りをメモ"}</button>`}
+    ${cards||`<div class="empty">${dir==="in"?"返してもらうお金はありません":"返すお金はありません"}</div>`}
+    ${done.length?`<button class="small muted" id="lgDone" style="text-align:center;padding:6px">${showDone?"精算済みを隠す":`精算済み（最近${done.length}件）を見る`}</button>
+      ${showDone?`<div class="card" style="gap:0">${done.map(i=>`<div class="p-item"><span>${md_(parseD(i.date))} ${esc(i.name)}・${esc(i.note||"")}</span><b style="color:var(--ink3)">RM ${rm(Number(i.myr))} ✓</b></div>`).join("")}</div>`:""}`:""}
+  </div>`;
+}
+function settlePerson(dir,name,amount){
+  let left=Math.round(amount*100)/100; const now=new Date().toISOString();
+  openIous(dir).filter(i=>i.name===name).sort((a,b)=>a.date.localeCompare(b.date)).forEach(i=>{
+    if(left<=0) return; const need=iouLeft(i), pay=Math.min(need,left);
+    i.paid=Math.round((Number(i.paid||0)+pay)*100)/100; left=Math.round((left-pay)*100)/100;
+    if(iouLeft(i)<=0) i.settledAt=now;
+  });
+}
+function reminderText(dir,name){
+  const p=byPerson(dir).find(x=>x.name===name); if(!p) return "";
+  const lines=p.items.map(i=>`${md_(parseD(i.date))} ${i.note||""} RM${rm(iouLeft(i))}`);
+  return dir==="in"?`${name}、立て替えた分お願いします！\n${lines.join("\n")}\n合計 RM${rm(p.total)}（TNGでOK）`:`${name}に返す分\n${lines.join("\n")}\n合計 RM${rm(p.total)}`;
+}
+function bindLedger(on){
+  document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{ledgerTab=b.dataset.tab;settling=null;ledgerForm=false;render();});
+  on("lgOpen","click",()=>{ledgerForm=true;render();setTimeout(()=>{const i=$("#lgName");i&&i.focus();},30);});
+  on("lgCancel","click",()=>{ledgerForm=false;render();});
+  on("lgDone","click",()=>{showDone=!showDone;render();});
+  on("lgSave","click",()=>{
+    const n=$("#lgName").value.trim(), a=Math.round(Number($("#lgAmt").value)*100)/100, note=$("#lgNote").value.trim();
+    if(!n||!(a>0)) return toast("名前と金額を入れてください");
+    S.ious=S.ious||[]; S.ious.push({id:uid(),dir:ledgerTab,name:n,myr:a,paid:0,note,date:ymd(new Date()),createdAt:new Date().toISOString()});
+    addFriend(n); ledgerForm=false; save(); render(); toast(ledgerTab==="in"?`${n}に RM ${rm(a)} 貸しをメモしました`:`${n}に RM ${rm(a)} 借りをメモしました`);
+  });
+  document.querySelectorAll("[data-settle]").forEach(b=>b.onclick=()=>{settling=b.dataset.settle;render();});
+  on("stlCancel","click",()=>{settling=null;render();});
+  on("stlOk","click",e=>{
+    const name=e.currentTarget.dataset.name, a=Number($("#stlAmt").value); if(!(a>0)) return toast("金額を入れてください");
+    settlePerson(ledgerTab,name,a); settling=null; save(); render(); toast(`${name}と RM ${rm(a)} 精算しました`);
+  });
+  document.querySelectorAll("[data-copy]").forEach(b=>b.onclick=async()=>{
+    const t=reminderText(ledgerTab,b.dataset.copy);
+    try{await navigator.clipboard.writeText(t);toast("コピーしました。WhatsAppなどに貼って送れます");}
+    catch(err){window.prompt("コピーしてください",t);}
+  });
 }
 
 /* ================= actions ================= */
@@ -532,6 +679,13 @@ function bindView(){
     const pd=S.periods[curKey()]; if(pd) pd.fixed=S.settings.fixed; save(); render(); toast("固定費を追加しました");
   });
   on("carry","change",e=>{S.settings.carry=e.target.checked;save();});
+  on("sySave","click",()=>{
+    const key=curKey(), b=budget(key), pd=S.periods[key]; if(!b) return toast("先に仕送りを登録してください");
+    const v=Number($("#syJPY").value); if(!(v>=0)||$("#syJPY").value==="") return toast("実際の残高を入れてください");
+    const now=b.usableJPY-sumJPY(expensesOf(key),pd); pd.adjustJPY=Math.round(Number(pd.adjustJPY||0)+(v-now));
+    save(); render(); toast(`カード残高を ${yen(v)} に合わせました`);
+  });
+  bindLedger(on);
   on("bkOut","click",exportData);
   on("bkIn","click",()=>$("#bkFile").click());
   on("bkFile","change",importData);
@@ -539,7 +693,7 @@ function bindView(){
   on("rNext","click",()=>{const k=shiftMonth(reportKey||curKey(),1);if(k<=curKey()){reportKey=k;render();}});
 }
 document.addEventListener("click",e=>{
-  const t=e.target.closest("[data-go],[data-add],[data-edit],[data-fx]"); if(!t) return;
+  const t=e.target.closest("[data-go],[data-add],[data-edit],[data-fx]"); if(!t||t.closest("#sheet")) return;
   if(t.dataset.go!==undefined) return go(t.dataset.go);
   if(t.dataset.add!==undefined) return openSheet(null);
   if(t.dataset.edit) return openSheet(S.expenses.find(x=>x.id===t.dataset.edit));
@@ -547,9 +701,9 @@ document.addEventListener("click",e=>{
 });
 
 async function exportData(){
-  const name=`syuppee-backup-${ymd(new Date())}.json`, text=JSON.stringify(S,null,1);
+  const name=`shupee-backup-${ymd(new Date())}.json`, text=JSON.stringify(S,null,1);
   const file=new File([text],name,{type:"application/json"});
-  try{ if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:"syuppee バックアップ"});return;} }catch(e){ if(e&&e.name==="AbortError") return; }
+  try{ if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:"Shupee バックアップ"});return;} }catch(e){ if(e&&e.name==="AbortError") return; }
   const a=document.createElement("a"); a.href=URL.createObjectURL(file); a.download=name; document.body.appendChild(a); a.click(); a.remove();
 }
 function importData(e){
@@ -564,8 +718,9 @@ function importData(e){
 let draft=null;
 function openSheet(ex){
   const r=todayRate();
-  draft=ex?{id:ex.id,amt:String(ex.myr),cat:ex.cat,note:ex.note||"",date:ex.date,rate:ex.rate,createdAt:ex.createdAt,confirm:false}
-          :{id:null,amt:"",cat:S.lastCat||"eatout",note:"",date:ymd(new Date()),rate:r,confirm:false};
+  draft=ex?{id:ex.id,amt:String(ex.myr),cat:ex.cat,note:ex.note||"",date:ex.date,rate:ex.rate,createdAt:ex.createdAt,confirm:false,
+             split:!!(ex.split&&ex.split.length),friends:(ex.split||[]).map(f=>f.name),custom:Object.fromEntries((ex.split||[]).map(f=>[f.name,String(f.myr)])),adding:false}
+          :{id:null,amt:"",cat:S.lastCat||"eatout",note:"",date:ymd(new Date()),rate:r,confirm:false,split:false,friends:[],custom:{},adding:false};
   renderSheet(); $("#sheet").hidden=false; document.body.style.overflow="hidden";
 }
 function closeSheet(){ $("#sheet").hidden=true; document.body.style.overflow=""; draft=null; }
@@ -582,6 +737,8 @@ function renderSheet(){
     <div class="cats" role="group" aria-label="カテゴリ">${CATS.map(c=>`<button class="cat" data-c="${c.id}" aria-pressed="${c.id===d.cat}" style="--cc:${c.c}"><span class="ci">${svg(ICON[c.id])}</span>${c.name}</button>`).join("")}</div>
     <label class="note">${svg('<path d="M4 20h4L19 9l-4-4L4 16z"/>')}<input id="shNote" type="text" placeholder="メモ（例 Grab 大学まで）" value="${esc(d.note)}" enterkeyhint="done"></label>
     ${notes.length?`<div class="recent">${notes.map(n=>`<button data-n="${esc(n)}">${esc(n)}</button>`).join("")}</div>`:""}
+    <button class="split-tg" id="shSplit" aria-pressed="${d.split}"><span><b style="display:block">割り勘（自分が立て替え）</b><span class="small" style="opacity:.8">カードからは全額引いて、返してもらう分をメモ</span></span><span class="sw"></span></button>
+    ${d.split?splitBox():""}
     <div class="keys">${["1","2","3","4","5","6","7","8","9",".","0","del"].map(k=>`<button data-k="${k}" aria-label="${k==="del"?"1文字消す":k}">${k==="del"?svg('<path d="M21 5H9l-6 7 6 7h12z"/><path d="M17 9l-5 6M12 9l5 6"/>'):k}</button>`).join("")}</div>
     <div class="sheet-actions">
       ${d.id?`<button class="btn del ${d.confirm?"confirm-del":""}" id="shDel">${d.confirm?"本当に削除":svg('<path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/>')}</button>`:""}
@@ -596,8 +753,40 @@ function renderSheet(){
   sh.querySelectorAll("[data-c]").forEach(b=>b.onclick=()=>{draft.cat=b.dataset.c;draft.confirm=false;const x=sh.querySelector(".cats").scrollLeft;renderSheet();$("#sheet .cats").scrollLeft=x;});
   sh.querySelectorAll("[data-n]").forEach(b=>b.onclick=()=>{draft.note=b.dataset.n;renderSheet();});
   sh.querySelectorAll("[data-k]").forEach(b=>b.onclick=()=>key(b.dataset.k));
-  const del=sh.querySelector("#shDel"); if(del) del.onclick=()=>{ if(!draft.confirm){draft.confirm=true;renderSheet();return;} S.expenses=S.expenses.filter(e=>e.id!==draft.id); save(); closeSheet(); render(); toast("削除しました"); };
+  const del=sh.querySelector("#shDel"); if(del) del.onclick=()=>{ if(!draft.confirm){draft.confirm=true;renderSheet();return;} S.expenses=S.expenses.filter(e=>e.id!==draft.id); S.ious=(S.ious||[]).filter(i=>!(i.expenseId===draft.id&&!i.settledAt&&!Number(i.paid))); save(); closeSheet(); render(); toast("削除しました"); };
   sh.querySelector("#shSave").onclick=commit;
+  sh.querySelector("#shSplit").onclick=()=>{draft.split=!draft.split;renderSheet();};
+  sh.querySelectorAll("[data-fr]").forEach(b=>b.onclick=()=>{const n=b.dataset.fr;draft.friends=draft.friends.includes(n)?draft.friends.filter(x=>x!==n):[...draft.friends,n];renderSheet();});
+  const fa=sh.querySelector("#frAdd"); if(fa) fa.onclick=()=>{draft.adding=true;renderSheet();setTimeout(()=>{const i=$("#frNew");i&&i.focus();},30);};
+  const fo=sh.querySelector("#frOk"); if(fo) fo.onclick=()=>{const n=$("#frNew").value.trim();if(n){addFriend(n);if(!draft.friends.includes(n))draft.friends.push(n);}draft.adding=false;renderSheet();};
+  const fn=sh.querySelector("#frNew"); if(fn) fn.onkeydown=e=>{if(e.key==="Enter"){e.preventDefault();$("#frOk").click();}};
+  sh.querySelectorAll("[data-share]").forEach(i=>i.oninput=()=>{draft.custom[i.dataset.share]=i.value;updateSplitSum();});
+  sh.querySelector("#shSave").disabled=!canSave();
+}
+function shares(){
+  const v=Number(draft.amt)||0, n=draft.friends.length; if(!draft.split||!n) return [];
+  const eq=Math.floor(v/(n+1)*100)/100;
+  return draft.friends.map(f=>{const c=draft.custom[f];return {name:f,myr:c!==undefined&&c!==""?Math.round(Number(c)*100)/100:eq};});
+}
+function splitInfo(){const v=Number(draft.amt)||0, sh=shares(), lent=Math.round(sh.reduce((s,x)=>s+(x.myr||0),0)*100)/100;return {v,sh,lent,mine:Math.round((v-lent)*100)/100};}
+function canSave(){const {v,sh,lent}=splitInfo();if(!(v>0))return false;if(draft.split){if(!sh.length)return false;if(lent>v+0.001)return false;}return true;}
+function splitSumHTML(){
+  const {v,sh,lent,mine}=splitInfo();
+  if(!sh.length) return `<div class="split-sum"><span>一緒に払った人を選んでください</span></div>`;
+  if(lent>v+0.001) return `<div class="split-sum"><span>友達の分が合計額を超えています</span></div>`;
+  return `<div class="split-sum"><span>カードから <b>RM ${rm(v)}</b></span><span>自分の分 <b>RM ${rm(mine)}</b></span><span>返してもらう <b>RM ${rm(lent)}</b></span></div>`;
+}
+function updateSplitSum(){const el=$("#splitSum");if(el)el.innerHTML=splitSumHTML();$("#shSave").disabled=!canSave();}
+function splitBox(){
+  const d=draft, known=[...new Set([...(d.friends||[]),...(S.friends||[])])];
+  const eq=shares();
+  return `<div class="split-box">
+    <div class="small" style="opacity:.85">誰と割り勘した？（自分以外）</div>
+    <div class="fr-chips">${known.map(f=>`<button class="fr" data-fr="${esc(f)}" aria-pressed="${d.friends.includes(f)}">${esc(f)}</button>`).join("")}<button class="fr add" id="frAdd">＋ 名前を追加</button></div>
+    ${d.adding?`<div class="fr-new"><input id="frNew" type="text" placeholder="友達の名前" enterkeyhint="done"><button id="frOk">追加</button></div>`:""}
+    ${eq.length?`<div class="small" style="opacity:.85">返してもらう金額（均等割り。違う時は書き換え）</div>${eq.map(x=>`<label class="share-row"><span>${esc(x.name)}</span><input type="number" inputmode="decimal" step="0.01" data-share="${esc(x.name)}" value="${d.custom[x.name]!==undefined?esc(d.custom[x.name]):x.myr.toFixed(2)}" aria-label="${esc(x.name)}の金額"></label>`).join("")}`:""}
+    <div id="splitSum">${splitSumHTML()}</div>
+  </div>`;
 }
 function key(k){
   let a=draft.amt;
@@ -608,15 +797,29 @@ function key(k){
   const v=Number(a)||0, r=draft.rate||todayRate();
   const big=$("#sheet .amount .big"); big.innerHTML=`<span class="cur">RM</span>${a||"0"}`; big.classList.toggle("zero",!v);
   $("#sheet .amount .yen").textContent=v&&r?`≈ ${yen(v*r)}（1 RM = ${r.toFixed(2)}円）`:"";
-  $("#shSave").disabled=!(v>0);
+  if(draft.split&&$("#sheet .split-box")){draft.custom={};const pos=$("#sheet .sheet-in").scrollTop;renderSheet();$("#sheet .sheet-in").scrollTop=pos;return;}
+  $("#shSave").disabled=!canSave();
 }
 function commit(){
   const v=Math.round(Number(draft.amt)*100)/100; if(!(v>0)) return;
   const r=draft.id?(draft.rate||todayRate()):todayRate();
-  const body={id:draft.id||uid(),myr:v,cat:draft.cat,note:(draft.note||"").trim(),date:draft.date,rate:r||null,createdAt:draft.createdAt||new Date().toISOString()};
+  if(!canSave()) return;
+  const {sh,lent}=splitInfo(), split=draft.split?sh.filter(x=>x.myr>0):[];
+  const body={id:draft.id||uid(),myr:v,cat:draft.cat,note:(draft.note||"").trim(),date:draft.date,rate:r||null,createdAt:draft.createdAt||new Date().toISOString(),
+    split,lent:split.length?lent:0};
   if(draft.id) S.expenses=S.expenses.map(e=>e.id===draft.id?body:e); else S.expenses.push(body);
+  // keep 返してもらう list in step with this payment
+  S.ious=S.ious||[];
+  const linked=S.ious.filter(i=>i.expenseId===body.id);
+  S.ious=S.ious.filter(i=>i.expenseId!==body.id||i.settledAt||Number(i.paid));
+  split.forEach(f=>{
+    const old=linked.find(i=>i.name===f.name);
+    if(old&&(old.settledAt||Number(old.paid))) return;
+    S.ious.push({id:old?old.id:uid(),dir:"in",name:f.name,myr:f.myr,paid:0,note:body.note||catById(body.cat).name,date:body.date,expenseId:body.id,createdAt:new Date().toISOString()});
+    addFriend(f.name);
+  });
   S.lastCat=draft.cat; save(); const wasEdit=!!draft.id; closeSheet(); render();
-  toast(wasEdit?"修正しました":`RM ${rm(v)}${r?`（${yen(v*r)}）`:""} を記録しました`);
+  toast(wasEdit?"修正しました":split.length?`記録しました・返してもらう RM ${rm(lent)} を追加`:`RM ${rm(v)}${r?`（${yen(v*r)}）`:""} を記録しました`);
 }
 
 /* ================= boot ================= */
@@ -625,7 +828,7 @@ fetchRate();
 document.addEventListener("visibilitychange",()=>{ if(!document.hidden){ const f=S.rate&&S.rate.fetched; if(!f||Date.now()-new Date(f).getTime()>3*3600e3) fetchRate(); render(); }});
 if(navigator.storage&&navigator.storage.persist) navigator.storage.persist().catch(()=>{});
 if("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(()=>{});
-{const h=location.hash.slice(1); if(h==="add") openSheet(null); else if(["history","report","settings"].includes(h)) go(h);}
+{const h=location.hash.slice(1); if(h==="add") openSheet(null); else if(["history","report","settings","ledger"].includes(h)) go(h);}
 </script>
 </body>
 </html>

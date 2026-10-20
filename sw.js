@@ -1,5 +1,5 @@
-// syuppee service worker: keeps the app opening offline. Rates are always fetched live.
-const CACHE = "syuppee-v4";
+// Shupee service worker: keeps the app opening offline. Rates are always fetched live.
+const CACHE = "shupee-v5";
 const SHELL = ["./", "index.html", "manifest.webmanifest", "icon-180.png", "icon-192.png", "icon-512.png"];
 
 self.addEventListener("install", e => {
