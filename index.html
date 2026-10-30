@@ -415,9 +415,13 @@ function vHome(){
     const margin=perDayNow-floor;   // 1日あたりの余裕
     bigWrap+=`<div class="cap-note">
       ${margin>=0
-        ?`<div class="row"><span>1日 RM ${rm(floor)} のラインまで<br>1日あたり あと</span><b class="num" style="font-size:20px">RM ${rm(margin)}</b></div>
-          <div class="small" style="opacity:.85">明日から毎日 RM ${rm(perDayNow)} までならラインを下回りません（まとめてなら RM ${rm(canSpend)} まで）</div>`
-        :`<div class="row"><span>1日 RM ${rm(floor)} のラインを<br>1日あたり</span><b class="num" style="font-size:20px">RM ${rm(-margin)} 下回り</b></div>
+        ?`<div class="small" style="opacity:.85;font-weight:700">最低ライン 1日 RM ${rm(floor)} までの余裕</div>
+          <div class="row"><span>毎日、ラインにプラスで</span><b class="num" style="font-size:19px">+RM ${rm(margin)}<span style="font-size:12px;font-weight:600"> / 日</span></b></div>
+          <div class="row"><span>全部まとめて使うなら</span><b class="num" style="font-size:19px">RM ${rm(canSpend)}<span style="font-size:12px;font-weight:600"> 合計</span></b></div>
+          <div class="small" style="opacity:.85">明日から毎日 RM ${rm(perDayNow)}（${rm(floor)} + ${rm(margin)}）まで使っても、ラインを下回りません</div>`
+        :`<div class="small" style="opacity:.85;font-weight:700">最低ライン 1日 RM ${rm(floor)} を下回っています</div>
+          <div class="row"><span>1日あたり</span><b class="num" style="font-size:19px">−RM ${rm(-margin)}<span style="font-size:12px;font-weight:600"> / 日</span></b></div>
+          <div class="row"><span>全部で</span><b class="num" style="font-size:19px">RM ${rm(-canSpend)}<span style="font-size:12px;font-weight:600"> 不足</span></b></div>
           <div class="small" style="opacity:.85">今のままだと明日から1日あたり RM ${rm(perDayNow)} です</div>`}
     </div>`;
   }
