@@ -56,6 +56,8 @@ input,select{font:inherit;color:inherit}
 .big{font-family:var(--num);font-weight:800;font-size:clamp(48px,16vw,64px);line-height:1.05;letter-spacing:-.035em}
 .big .cur{font-size:.42em;font-weight:700;opacity:.85;margin-right:4px;letter-spacing:0}
 .big-sub{font-size:13px;opacity:.85}
+.cap-note{background:var(--glass);border:1px solid var(--glass-b);border-radius:var(--r-md);padding:10px 14px;display:flex;flex-direction:column;gap:4px;font-size:13px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.cap-note b{font-size:14px;white-space:nowrap}
 .glass{background:var(--glass);border:1px solid var(--glass-b);border-radius:var(--r-lg);padding:14px 16px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
 .glass-row{display:flex;justify-content:space-between;align-items:center;gap:10px}
 .glass .k{font-size:12px;opacity:.78}
@@ -398,12 +400,31 @@ function vHome(){
   const timePos=Math.min(1,dayDiff(P.start,now)/P.days);
   const diff=used-timePos;
   const pace=diff>0.1?["bad","使いすぎ"]:diff>0.03?["warn","ちょい速め"]:["","いいペース"];
-  return `<header class="hero${over?" over":""}"><div class="hero-inner">${top}
-    <div class="big-wrap">
+  const cap=Number(S.settings.dailyCap)||0, todayRM=sumRM(todays);
+  let bigWrap;
+  if(cap&&b){
+    const capLeft=cap-todayRM, capOver=capLeft<0, balLeft=leftJPY/b.r;
+    const keepRM=remainingJPY/b.r-Math.max(capLeft,0)-cap*(daysLeft-1);
+    bigWrap=`<div class="big-wrap">
+      <div class="big-label">${capOver?"今日の上限をオーバー":"今日の上限まであと"}</div>
+      <div class="big num"><span class="cur">${capOver?"+RM":"RM"}</span>${rm(Math.abs(capLeft))}</div>
+      <div class="big-sub num">1日の上限 RM ${rm(cap)}・今日使った RM ${rm(todayRM)}</div>
+    </div>
+    <div class="cap-note">
+      <div class="row"><span>残高ベースなら今日あと</span><b class="num">${balLeft>=0?`RM ${rm(balLeft)}`:`RM ${rm(-balLeft)} オーバー`}</b></div>
+      <div class="row"><span>${keepRM>=0?"上限を守れば次の仕送り日に":"上限を守っても次の仕送り日に"}</span><b class="num">${keepRM>=0?`RM ${rm(keepRM)} 残る`:`RM ${rm(-keepRM)} 足りない`}</b></div>
+      ${capOver?`<div class="small" style="opacity:.85">明日はまた上限 RM ${rm(cap)} からスタートです</div>`:""}
+    </div>`;
+  }else{
+    bigWrap=`<div class="big-wrap">
       <div class="big-label">${over?"今日はオーバー":"今日あと使える"}</div>
       <div class="big num"><span class="cur">RM</span>${b?rm(Math.abs(leftJPY)/b.r):"–"}</div>
       <div class="big-sub num">${b?(over?`明日から1日 RM ${rm(tomorrowJPY/b.r)}`:`今日の枠 RM ${rm(perDayJPY/b.r)}・${yen(perDayJPY)}`):"レート取得中…"}</div>
-    </div>
+    </div>`;
+  }
+  const heroOver=cap&&b?todayRM>cap:over;
+  return `<header class="hero${heroOver?" over":""}"><div class="hero-inner">${top}
+    ${bigWrap}
     <div class="glass">
       <div class="glass-row"><div><div class="k">カード残高</div><div class="v">${yen(remainingJPY)}</div><div class="k num" style="margin-top:2px">≈ RM ${b?rm(remainingJPY/b.r):"–"}</div></div>
       <div style="text-align:right"><div class="k">次の仕送り</div><div class="v">${md_(P.end)}<span style="font-size:13px;font-weight:600;opacity:.8"> あと${daysLeft}日</span></div></div></div>
@@ -475,7 +496,9 @@ function vReport(){
   const d=b?b.usableJPY-spentJPY:null;
   // chart
   const n=P.days, daily=Array(n).fill(0); items.forEach(e=>{const i=dayDiff(P.start,parseD(e.date));if(i>=0&&i<n)daily[i]+=Number(e.myr);});
-  const target=b?(b.usableJPY/n)/(avg||b.r):0;
+  const capR=Number(S.settings.dailyCap)||0;
+  const target=capR||(b?(b.usableJPY/n)/(avg||b.r):0);
+  const overDays=target?daily.filter(v=>v>target+0.004).length:0;
   const W=340,H=170,L=30,R=4,T=10,B=22, mx=Math.max(10,target,...daily), step=nice(mx), ymax=Math.ceil(mx/step)*step, bw=(W-L-R)/n, sy=v=>T+(H-T-B)*(1-v/ymax);
   let g=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="毎日の出費"><defs><linearGradient id="gb" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FF8A3D"/><stop offset="1" stop-color="#FFC49A" stop-opacity=".55"/></linearGradient><linearGradient id="go" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E5484D"/><stop offset="1" stop-color="#F7A3A5" stop-opacity=".6"/></linearGradient></defs>`;
   for(let v=0;v<=ymax+1e-9;v+=step) g+=`<line x1="${L}" x2="${W-R}" y1="${sy(v)}" y2="${sy(v)}" stroke="#ECEAF3"/><text x="${L-6}" y="${sy(v)+3}" font-size="9" text-anchor="end" fill="#9A97A8" font-family="Plus Jakarta Sans">${+v.toFixed(1)}</text>`;
@@ -498,7 +521,7 @@ function vReport(){
       ${cats.length?`<div class="stack">${cats.map(([id,v])=>`<i style="width:${v/spent*100}%;background:${catById(id).c}"></i>`).join("")}</div>
       <div class="legend">${cats.map(([id,v])=>{const c=catById(id);return `<div class="leg">${catIcon(id)}<span>${c.name}</span><span class="a"><b>RM ${rm(v)}</b><span>${Math.round(v/spent*100)}%</span></span></div>`;}).join("")}</div>`:`<div class="empty">この期間の記録はありません</div>`}
     </div>
-    <div class="card chart"><div class="card-h"><h3>毎日の出費</h3><span class="small muted">RM</span></div>${g}${target?`<div class="small muted">点線は1日の目安（約 RM ${rm(target)}）。超えた日は赤。</div>`:""}</div>
+    <div class="card chart"><div class="card-h"><h3>毎日の出費</h3><span class="small muted">RM</span></div>${g}${target?`<div class="small muted">点線は${capR?"1日の上限":"1日の目安"}（RM ${rm(target)}）。超えた日は赤（${overDays}日）。</div>`:""}</div>
     ${top5.length?`<div class="card"><div class="card-h"><h3>大きかった出費</h3></div><div class="list">${top5.map(e=>itemHTML(e,pd)).join("")}</div></div>`:""}
     ${b?`<div class="card"><div class="card-h"><h3>この期間の内訳</h3></div>
       <div class="row small"><span class="muted">仕送り</span><b class="num">${yen(b.allowJPY)}</b></div>
@@ -546,6 +569,15 @@ function vSettings(){
         <label class="field">今日だけ手入力<input id="mrV" type="number" inputmode="decimal" step="0.001" placeholder="${r?r.toFixed(2):"38.76"}"></label>
         <button class="btn sm ${manual?"ghost":""}" id="mrSave" style="width:100%;padding:13px">${manual?"自動に戻す":"この値を使う"}</button>
       </div>
+    </div>
+    <div class="card">
+      <div class="card-h"><h3>1日の上限</h3><span class="small muted">${S.settings.dailyCap?`今 RM ${rm(Number(S.settings.dailyCap))}`:"オフ"}</span></div>
+      <div class="small muted">自分で決めた「1日これ以下」の金額です。ホームに上限まであといくらかが出て、超えた日も残高ベースであといくら使えるかを表示します。</div>
+      <div class="grid2" style="align-items:end">
+        <label class="field">上限（RM / 日）<input id="capV" type="number" inputmode="decimal" step="0.5" placeholder="30" value="${S.settings.dailyCap||""}"></label>
+        <div style="display:flex;gap:8px"><button class="btn sm" id="capSave" style="flex:1;padding:13px">保存</button>${S.settings.dailyCap?`<button class="btn sm ghost" id="capOff" style="padding:13px">オフ</button>`:""}</div>
+      </div>
+      ${b&&S.settings.dailyCap?(()=>{const per=(b.usableJPY-sumJPY(expensesOf(key),pd))/b.r/Math.max(1,dayDiff(new Date(),period(key).end));return `<div class="small muted">参考：残高を次の仕送りまで均等に使うと1日 約 RM ${rm(per)}。${S.settings.dailyCap>per?"上限の方が高いので、上限いっぱい使うと足りなくなります。":"上限を守れば余裕があります。"}</div>`;})():""}
     </div>
     <div class="card">
       <div class="card-h"><h3>固定費</h3><span class="small muted">毎月先に引く</span></div>
@@ -679,6 +711,8 @@ function bindView(){
     const pd=S.periods[curKey()]; if(pd) pd.fixed=S.settings.fixed; save(); render(); toast("固定費を追加しました");
   });
   on("carry","change",e=>{S.settings.carry=e.target.checked;save();});
+  on("capSave","click",()=>{const v=Math.round(Number($("#capV").value)*100)/100;if(!(v>0))return toast("上限の金額を入れてください（例 30）");S.settings.dailyCap=v;save();render();toast(`1日の上限を RM ${rm(v)} にしました`);});
+  on("capOff","click",()=>{S.settings.dailyCap=null;save();render();toast("1日の上限をオフにしました");});
   on("sySave","click",()=>{
     const key=curKey(), b=budget(key), pd=S.periods[key]; if(!b) return toast("先に仕送りを登録してください");
     const v=Number($("#syJPY").value); if(!(v>=0)||$("#syJPY").value==="") return toast("実際の残高を入れてください");
