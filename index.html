@@ -402,30 +402,22 @@ function vHome(){
   const diff=used-timePos;
   const pace=diff>0.1?["bad","使いすぎ"]:diff>0.03?["warn","ちょい速め"]:["","いいペース"];
   const floor=Number(S.settings.dailyFloor)||0;
-  let bigWrap, heroOver=over;
-  if(floor&&b){
-    // 今の残高から、明日以降の「1日あたり」が floor を下回らずに今使える額
-    const restDays=Math.max(1,daysLeft-1), remRM=remainingJPY/b.r;
-    const canSpend=remRM-floor*restDays, perDayNow=remRM/restDays;
-    heroOver=canSpend<0;
-    bigWrap=heroOver?`<div class="big-wrap">
-      <div class="big-label">1日 RM ${rm(floor)} のラインを下回っています</div>
-      <div class="big num"><span class="cur">RM</span>${rm(perDayNow)}</div>
-      <div class="big-sub num">今の残高だと明日から1日あたりこの額・ラインまで RM ${rm(-canSpend)} 足りない</div>
-    </div>`:`<div class="big-wrap">
-      <div class="big-label">1日 RM ${rm(floor)} のラインまで あと</div>
-      <div class="big num"><span class="cur">RM</span>${rm(canSpend)}</div>
-      <div class="big-sub num">これ以上使うと明日から1日 RM ${rm(floor)} 未満に</div>
-    </div>`;
-    bigWrap+=`<div class="cap-note">
-      <div class="row"><span>今のままなら明日から1日あたり</span><b class="num">RM ${rm(perDayNow)}</b></div>
-      <div class="row"><span>今日使った額</span><b class="num">RM ${rm(sumRM(todays))}</b></div>
-    </div>`;
-  }else{
-    bigWrap=`<div class="big-wrap">
+  const heroOver=over;
+  let bigWrap=`<div class="big-wrap">
       <div class="big-label">${over?"今日はオーバー":"今日あと使える"}</div>
       <div class="big num"><span class="cur">RM</span>${b?rm(Math.abs(leftJPY)/b.r):"–"}</div>
       <div class="big-sub num">${b?(over?`明日から1日 RM ${rm(tomorrowJPY/b.r)}`:`今日の枠 RM ${rm(perDayJPY/b.r)}・${yen(perDayJPY)}`):"レート取得中…"}</div>
+    </div>`;
+  if(floor&&b){
+    // 明日以降の「1日あたり」が floor を下回らずに今使える額
+    const restDays=Math.max(1,daysLeft-1), remRM=remainingJPY/b.r;
+    const canSpend=remRM-floor*restDays, perDayNow=remRM/restDays;
+    bigWrap+=`<div class="cap-note">
+      ${canSpend>=0
+        ?`<div class="row"><span>1日 RM ${rm(floor)} のラインまで あと</span><b class="num">RM ${rm(canSpend)}</b></div>
+          <div class="small" style="opacity:.85">これ以上使うと、明日からの1日あたりが RM ${rm(floor)} 未満に</div>`
+        :`<div class="row"><span>1日 RM ${rm(floor)} のラインを下回っています</span><b class="num">RM ${rm(-canSpend)} 不足</b></div>`}
+      <div class="row"><span>今のままなら明日から1日あたり</span><b class="num">RM ${rm(perDayNow)}</b></div>
     </div>`;
   }
   return `<header class="hero${heroOver?" over":""}"><div class="hero-inner">${top}
