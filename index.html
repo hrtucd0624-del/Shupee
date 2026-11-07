@@ -396,6 +396,16 @@ function vHome(){
   const top=`<div class="topbar"><div class="who"><div class="avatar">H</div><div><b>${now.getMonth()+1}月${now.getDate()}日（${wd(now)}）</b></div></div>
     <span class="chip-glass"><span class="dot"></span><span class="num">1 RM = ${r?r.toFixed(2):"–"}円</span></span></div>`;
   if(!pd||!pd.allowanceJPY){
+    const pk=shiftMonth(key,-1), prevItems=expensesOf(pk), hasPast=S.expenses.length>0||Object.keys(S.periods).length>0;
+    if(hasPast){
+      const pP=period(pk), pb=budget(pk), pSpentJPY=sumJPY(prevItems,S.periods[pk]);
+      return `<header class="hero"><div class="hero-inner">${top}
+        <div class="big-wrap"><div class="big-label">新しい期間 ${P.label}</div><div class="big num" style="font-size:clamp(40px,12vw,52px)">仕送り日です</div><div class="big-sub">今回カードに入った額を入れてください。前回までの記録はそのまま残っています</div></div>
+        <div class="glass glass-row"><div><div class="k">前回 ${pP.label} の出費</div><div class="v">RM ${rm(sumRM(prevItems))}</div><div class="k num">${prevItems.length}件・${yen(pSpentJPY)}</div></div>
+        <div style="text-align:right"><div class="k">前回の残り</div><div class="v">${pb?yen(pb.usableJPY-pSpentJPY):"–"}</div></div></div>
+      </div></header>
+      <div class="page">${setupCard()}<button class="btn ghost" id="prevReport">前回のレポートを見る</button></div>`;
+    }
     return `<header class="hero"><div class="hero-inner">${top}
       <div class="big-wrap"><div class="big-label">次の仕送りまで ${daysLeft}日</div><div class="big num">Welcome</div><div class="big-sub">仕送りを入れると、1日に使える額が出ます</div></div></div></header>
       <div class="page">${setupCard()}</div>`;
@@ -477,7 +487,7 @@ function setupCard(){
     <div class="conv" id="suConv">${convHTML(j)}</div>
     ${r?"":`<label class="field">今日のレート（取得できない時だけ）<input id="suRate" type="number" inputmode="decimal" step="0.01" placeholder="38.76"></label>`}
     <button class="btn" id="suSave">はじめる</button>
-    <button class="btn ghost" id="suRestore">バックアップから復元する</button>
+    ${S.expenses.length?"":`<button class="btn ghost" id="suRestore">バックアップから復元する</button>`}
     <input type="file" id="suFile" accept="application/json,.json" hidden>
   </div>`;
 }
@@ -733,6 +743,7 @@ function bindView(){
   on("bkOut","click",exportData);
   on("bkIn","click",()=>$("#bkFile").click());
   on("suRestore","click",()=>$("#suFile").click());
+  on("prevReport","click",()=>{go("report");reportKey=shiftMonth(curKey(),-1);render();});
   on("suFile","change",importData);
   on("bkNow","click",exportData);
   on("bkFile","change",importData);
