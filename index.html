@@ -289,12 +289,20 @@ function addFriend(n){n=(n||"").trim();if(!n)return;S.friends=[n,...(S.friends||
 const svg=(p,w=2)=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
 const catIcon=(id)=>{const c=catById(id);return `<span class="cat-ic" style="background:${c.bg};color:${c.c}">${svg(ICON[c.id])}</span>`;};
 
-const KEY="runway.v1";
+const KEY="runway.v1", KEY2="shupee.mirror";
 const blank=()=>({settings:{payDay:25,fixed:[],carry:false,lastJPY:null},periods:{},expenses:[],ious:[],friends:[],rate:null,manualRate:null});
-let S=load(); save();
+let S=load();
+if(S.expenses.length||Object.keys(S.periods).length) save();
 function migrate(d){d=Object.assign(blank(),d);if(d.settings.dailyCap&&!d.settings.dailyFloor)d.settings.dailyFloor=d.settings.dailyCap;delete d.settings.dailyCap;d.version=2;return d;}
-function load(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&s.settings)return migrate(s);}catch(e){}return blank();}
-function save(){try{localStorage.setItem(KEY,JSON.stringify(S));return true;}catch(e){toast("保存できませんでした");return false;}}
+function readKey(k){try{const s=JSON.parse(localStorage.getItem(k));if(s&&s.settings)return s;}catch(e){}return null;}
+function load(){const a=readKey(KEY), b=readKey(KEY2);
+  const pick=(a&&b)?((b.savedAt||"")>(a.savedAt||"")&&(b.expenses||[]).length>(a.expenses||[]).length?b:a):(a||b);
+  return pick?migrate(pick):blank();}
+function save(){try{S.savedAt=new Date().toISOString();const t=JSON.stringify(S);localStorage.setItem(KEY,t);localStorage.setItem(KEY2,t);idbPut(t);return true;}catch(e){toast("保存できませんでした");return false;}}
+/* 3つ目の保管場所（IndexedDB） */
+function idb(){return new Promise((res,rej)=>{try{const r=indexedDB.open("shupee",1);r.onupgradeneeded=()=>r.result.createObjectStore("kv");r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error);}catch(e){rej(e);}});}
+function idbPut(t){idb().then(d=>{const tx=d.transaction("kv","readwrite");tx.objectStore("kv").put(t,"data");}).catch(()=>{});}
+function idbGet(){return idb().then(d=>new Promise(res=>{const q=d.transaction("kv").objectStore("kv").get("data");q.onsuccess=()=>res(q.result||null);q.onerror=()=>res(null);})).catch(()=>null);}
 
 /* ================= helpers ================= */
 const pad=n=>String(n).padStart(2,"0");
@@ -448,6 +456,7 @@ function vHome(){
       <div class="row small muted"><span>使った割合 <b class="num" style="color:var(--ink)">${Math.round(used*100)}%</b></span><span>期間の経過 <b class="num" style="color:var(--ink)">${Math.round(timePos*100)}%</b></span></div>
       ${b&&b.fixedJPY?`<div class="small muted">固定費 RM ${rm(b.fixedMYR)}（${yen(b.fixedJPY)}）は先に引いています</div>`:""}
     </div>
+    ${backupNag()}
     ${ledgerMini()}
     <div class="card">
       <div class="card-h"><h3>今日の記録</h3><button class="link" data-go="history">すべて見る</button></div>
@@ -468,6 +477,8 @@ function setupCard(){
     <div class="conv" id="suConv">${convHTML(j)}</div>
     ${r?"":`<label class="field">今日のレート（取得できない時だけ）<input id="suRate" type="number" inputmode="decimal" step="0.01" placeholder="38.76"></label>`}
     <button class="btn" id="suSave">はじめる</button>
+    <button class="btn ghost" id="suRestore">バックアップから復元する</button>
+    <input type="file" id="suFile" accept="application/json,.json" hidden>
   </div>`;
 }
 const payOpts=()=>Array.from({length:31},(_,i)=>`<option value="${i+1}"${i+1===payDay()?" selected":""}>${i+1}日</option>`).join("");
@@ -721,6 +732,9 @@ function bindView(){
   bindLedger(on);
   on("bkOut","click",exportData);
   on("bkIn","click",()=>$("#bkFile").click());
+  on("suRestore","click",()=>$("#suFile").click());
+  on("suFile","change",importData);
+  on("bkNow","click",exportData);
   on("bkFile","change",importData);
   on("rPrev","click",()=>{reportKey=shiftMonth(reportKey||curKey(),-1);render();});
   on("rNext","click",()=>{const k=shiftMonth(reportKey||curKey(),1);if(k<=curKey()){reportKey=k;render();}});
@@ -733,16 +747,27 @@ document.addEventListener("click",e=>{
   if(t.dataset.fx!==undefined){S.settings.fixed=S.settings.fixed.filter((_,i)=>i!==Number(t.dataset.fx));const pd=S.periods[curKey()];if(pd)pd.fixed=S.settings.fixed;save();render();}
 });
 
+function backupNag(){
+  if(!S.expenses.length) return "";
+  const last=S.lastBackup?new Date(S.lastBackup):null, days=last?Math.floor((Date.now()-last.getTime())/864e5):null;
+  if(last&&days<7) return "";
+  return `<div class="card" style="border:1.5px solid var(--v300)">
+    <div class="card-h"><h3>バックアップしよう</h3><span class="small muted">${last?days+"日前が最後":"まだ1回もなし"}</span></div>
+    <div class="small muted">記録はこのiPhoneの中だけにあります。週1回「ファイルに保存」しておくと、消えても戻せます。</div>
+    <button class="btn" id="bkNow">今すぐバックアップ</button></div>`;
+}
 async function exportData(){
   const name=`shupee-backup-${ymd(new Date())}.json`, text=JSON.stringify(S,null,1);
   const file=new File([text],name,{type:"application/json"});
-  try{ if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:"Shupee バックアップ"});return;} }catch(e){ if(e&&e.name==="AbortError") return; }
-  const a=document.createElement("a"); a.href=URL.createObjectURL(file); a.download=name; document.body.appendChild(a); a.click(); a.remove();
+  const done=()=>{S.lastBackup=new Date().toISOString();save();render();};
+  try{ if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:"Shupee バックアップ"});done();return;} }catch(e){ if(e&&e.name==="AbortError") return; }
+  const a=document.createElement("a"); a.href=URL.createObjectURL(file); a.download=name; document.body.appendChild(a); a.click(); a.remove(); done();
 }
 function importData(e){
   const f=e.target.files&&e.target.files[0]; if(!f) return;
   const rd=new FileReader(); rd.onload=()=>{
     try{const d=JSON.parse(rd.result); if(!d||!d.settings||!Array.isArray(d.expenses)) throw 0;
+      if(!d.expenses.length&&S.expenses.length) throw 0;
       S=migrate(d); save(); render(); toast(`${S.expenses.length}件を読み込みました`);}catch(err){toast("このファイルは読み込めません");}
   }; rd.readAsText(f); e.target.value="";
 }
@@ -857,6 +882,7 @@ function commit(){
 
 /* ================= boot ================= */
 render();
+if(!S.expenses.length&&!Object.keys(S.periods).length){idbGet().then(t=>{try{const d=JSON.parse(t);if(d&&d.settings&&(d.expenses||[]).length){S=migrate(d);save();render();toast(`保存されていた記録 ${S.expenses.length}件を復元しました`);}}catch(e){}});}
 fetchRate();
 document.addEventListener("visibilitychange",()=>{ if(!document.hidden){ const f=S.rate&&S.rate.fetched; if(!f||Date.now()-new Date(f).getTime()>3*3600e3) fetchRate(); render(); }});
 if(navigator.storage&&navigator.storage.persist) navigator.storage.persist().catch(()=>{});
